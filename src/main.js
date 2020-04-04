@@ -1,5 +1,3 @@
-"use strict";
-
 const FILMS_ALL_COUNT = 5;
 const FILMS_EXTRA_COUNT = 2;
 
@@ -273,43 +271,43 @@ const createFilmDetailsTemplate = () => {
   );
 };
 
-const renderTemplate = (container, template, place = 'beforeend') => {
+const renderTemplate = (container, template, place = `beforeend`) => {
   container.insertAdjacentHTML(place, template);
 };
 
 
-const siteHeaderElement = document.querySelector('.header');
+const siteHeaderElement = document.querySelector(`.header`);
 renderTemplate(siteHeaderElement, createUserRankTemplate());
 
-const siteMainElement = document.querySelector('.main');
+const siteMainElement = document.querySelector(`.main`);
 renderTemplate(siteMainElement, createMainNavigationTemplate());
 renderTemplate(siteMainElement, createFilmsBoardTemplate());
 
-const siteFilmsContainerElement = siteMainElement.querySelector('.films');
+const siteFilmsContainerElement = siteMainElement.querySelector(`.films`);
 renderTemplate(siteFilmsContainerElement, createFilmsAllMoviesElement());
 
-const siteFilmsAllMoviesContainerElement = siteFilmsContainerElement.querySelector('.films-list__container');
+const siteFilmsAllMoviesContainerElement = siteFilmsContainerElement.querySelector(`.films-list__container`);
 
 for (let i = 0; i < FILMS_ALL_COUNT; i++) {
   renderTemplate(siteFilmsAllMoviesContainerElement, createFilmCardElement());
-};
+}
 
-const siteFilmsAllMoviesElement = siteFilmsContainerElement.querySelector('.films-list');
+const siteFilmsAllMoviesElement = siteFilmsContainerElement.querySelector(`.films-list`);
 renderTemplate(siteFilmsAllMoviesElement, createShowMoreButtonTemplate());
 
 renderTemplate(siteFilmsContainerElement, createFilmsTopRatedElement());
-//Так как 3 разных блоках (но два из них с одинаковыми именами) с фильмами карточки фильмами кладутся в одинаково названные контейнеры, приходится таким способом искать последний из добавленных
-const siteFilmsTopRatedContainerElement = Array.from(siteFilmsContainerElement.querySelectorAll('.films-list__container')).pop();
+// Так как 3 разных блоках (но два из них с одинаковыми именами) с фильмами карточки фильмами кладутся в одинаково названные контейнеры, приходится таким способом искать последний из добавленных
+const siteFilmsTopRatedContainerElement = Array.from(siteFilmsContainerElement.querySelectorAll(`.films-list__container`)).pop();
 
 for (let i = 0; i < FILMS_EXTRA_COUNT; i++) {
   renderTemplate(siteFilmsTopRatedContainerElement, createFilmCardElement());
-};
+}
 
 renderTemplate(siteFilmsContainerElement, createFilmsMostCommentedElement());
-const siteFilmsMostCommentedContainerElement = Array.from(siteFilmsContainerElement.querySelectorAll('.films-list__container')).pop();
+const siteFilmsMostCommentedContainerElement = Array.from(siteFilmsContainerElement.querySelectorAll(`.films-list__container`)).pop();
 
 for (let i = 0; i < FILMS_EXTRA_COUNT; i++) {
   renderTemplate(siteFilmsMostCommentedContainerElement, createFilmCardElement());
-};
+}
 
-//renderTemplate(document.querySelector('body'), createFilmDetailsTemplate());
+renderTemplate(document.querySelector(`body`), createFilmDetailsTemplate());
