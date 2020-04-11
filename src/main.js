@@ -6,22 +6,20 @@ import {createFilmCardElement} from "./components/film-card.js";
 import {createFilmsTopRatedElement} from "./components/films-top-rated.js";
 import {createShowMoreButtonTemplate} from "./components/button-show-more.js";
 import {createFilmsMostCommentedElement} from "./components/films-most-commented.js";
-import {getRandomNumber} from "./utils.js";
 import {createFilmsTotalTemplate} from "./components/films-total.js";
+import {getFilmsWatchedAmount} from "./mock/global.js";
+import {getFilmsTotalAmount} from "./mock/global.js";
 // import {createFilmDetailsTemplate} from "./components/film-details.js";
 
 
 const FILMS_ALL_COUNT = 5;
 const FILMS_EXTRA_COUNT = 2;
-const FILMS_WATCHED_MAX = 25; // в моки?
-const FILMS_IN_DATABASE = 150000; // моки?
 
 const renderTemplate = (container, template, place = `beforeend`) => {
   container.insertAdjacentHTML(place, template);
 };
 
-
-const userFilmsWatched = getRandomNumber(0, FILMS_WATCHED_MAX); // моки?
+const userFilmsWatched = getFilmsWatchedAmount();
 const siteHeaderElement = document.querySelector(`.header`);
 renderTemplate(siteHeaderElement, createUserRankTemplate(userFilmsWatched));
 
@@ -57,7 +55,7 @@ for (let i = 0; i < FILMS_EXTRA_COUNT; i++) {
 }
 
 const siteFilmsTotalElement = document.querySelector(`.footer__statistics`);
-const filmsTotal = getRandomNumber(FILMS_IN_DATABASE / 2, FILMS_IN_DATABASE);
+const filmsTotal = getFilmsTotalAmount();
 renderTemplate(siteFilmsTotalElement, createFilmsTotalTemplate(filmsTotal));
 
 // renderTemplate(document.querySelector(`body`), createFilmDetailsTemplate());
