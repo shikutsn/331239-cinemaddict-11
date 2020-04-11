@@ -6,19 +6,22 @@ import {createFilmCardElement} from "./components/film-card.js";
 import {createFilmsTopRatedElement} from "./components/films-top-rated.js";
 import {createShowMoreButtonTemplate} from "./components/button-show-more.js";
 import {createFilmsMostCommentedElement} from "./components/films-most-commented.js";
+import {getRandomNumber} from "./utils.js";
 // import {createFilmDetailsTemplate} from "./components/film-details.js";
 
 
 const FILMS_ALL_COUNT = 5;
 const FILMS_EXTRA_COUNT = 2;
+const FILMS_WATCHED_MAX = 25; // в моки?
 
 const renderTemplate = (container, template, place = `beforeend`) => {
   container.insertAdjacentHTML(place, template);
 };
 
 
+const userFilmsWatched = getRandomNumber(0, FILMS_WATCHED_MAX); // моки?
 const siteHeaderElement = document.querySelector(`.header`);
-renderTemplate(siteHeaderElement, createUserRankTemplate());
+renderTemplate(siteHeaderElement, createUserRankTemplate(userFilmsWatched));
 
 const siteMainElement = document.querySelector(`.main`);
 renderTemplate(siteMainElement, createMainNavigationTemplate());
