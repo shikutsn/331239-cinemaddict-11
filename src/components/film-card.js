@@ -2,13 +2,20 @@ export const createFilmCardElement = (film) => {
   // const {} = film;
 
   const title = `Santa Claus Conquers the Martians`;
-  const rating = 2.3;
   const poster = `santa-claus-conquers-the-martians.jpg`;
+  const rating = 2.3;
   const year = 1964; // получается из releaseDate
   const duration = `1h 21m`; // TODO: в перспективе хранить в минутах и преобразовывать в нужный формат перед рендером?
   const genre = `Comedy`; // для сокращенной карточки возьмем первый жанр из списка жанров
   const description = `The Martians Momar ("Mom Martian") and Kimar ("King Martian") are worried that their children Girmar ("Girl Martian") and Bomar ("Boy Marti…`; // краткое описание - тоже делается из длинного по ТЗ
+  const isWatched = false;
+  const isWatchlisted = true;
+  const isFavorite = true;
   const commentsCount = 465; // Math.floor(Math.random() * 500)
+
+
+
+
 
   return (
     `<article class="film-card">
