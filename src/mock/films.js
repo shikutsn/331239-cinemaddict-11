@@ -26,13 +26,25 @@ const CommentsData = {
     DELTA: `4`,
   }
 };
-// const FilmsData = {
-//   TITLES: [`The Dance of Life`, `Sagebrush Trail`, `The Man with the Golden Arm`, `Santa Claus Conquers the Martians`, `Popeye the Sailor Meets Sindbad the Sailor`, `Virus`, `Andromeda Stain`, `Mad Max: Fury Road`, `Terminator 2: Judgement Day`, `Game of Thrones`, `The Life of Pi`, `Raid: The Redemption`, `Casino Royale`, `The Saw`],
-//   POSTER: {
-//     PATH_BASE: `./images/posters/`,
-//     FILE_NAMES: [`sagebrush-trail.jpg`, `santa-claus-conquers-the-martians.jpg`, `the-dance-of-life.jpg`, `the-great-flamarion.jpg`, `the-man-with-the-golden-arm.jpg`, `made-for-each-other.png`, `popeye-meets-sinbad.png`],
-//   },
-// };
+const FilmsData = {
+  TITLES: [`The Dance of Life`, `Sagebrush Trail`, `The Man with the Golden Arm`, `Santa Claus Conquers the Martians`, `Popeye the Sailor Meets Sindbad the Sailor`, `Virus`, `Andromeda Strain`, `Mad Max: Fury Road`, `Terminator 2: Judgement Day`, `Game of Thrones`, `The Life of Pi`, `Raid: The Redemption`, `Casino Royale`, `The Saw`],
+  POSTER: {
+    PATH_BASE: `./images/posters/`,
+    FILE_NAMES: [`sagebrush-trail.jpg`, `santa-claus-conquers-the-martians.jpg`, `the-dance-of-life.jpg`, `the-great-flamarion.jpg`, `the-man-with-the-golden-arm.jpg`, `made-for-each-other.png`, `popeye-meets-sinbad.png`],
+  },
+  RATING: {
+    MIN: 30,
+    MAX: 90,
+    PRECISION: 1, // число точек после запятой
+  },
+  DURATION: {
+    MIN: 80,
+    MAX: 180,
+  },
+  DESCRIPTION: {
+    MAX_LENGTH: 5,
+  },
+};
 
 const getRandomDate = (startYear, deltaYear) => {
   // возвращает случайную дату в интервале (startYear - deltaYear) - (startYear + deltaYear)
@@ -60,15 +72,36 @@ const getComments = (count) => {
     .map(getComment);
 };
 
+const getRating = (min, max, precision) => {
+  // precision - число точек после запятой
+  let targetRating = getRandomNumber(min, max);
+  targetRating /= precision * 10;
+  return targetRating.toFixed(precision);
+};
+
+const getDuration = (min, max) => {
+  const targetDuration = getRandomNumber(min, max);
+  return `${Math.floor(targetDuration / 60)}h ${targetDuration % 60}m`;
+};
+
+const getDescription = (length) => {
+  return new Array(length)
+  .fill(``)
+  .map(() => {
+    return getRandomArrayItem(TEXT_DATA_MOCK);
+  })
+  .join(` `);
+};
+
 const generateFilm = () => {
   return {
-    title: `The Great Flamarion`,
-    poster: `the-great-flamarion.jpg`,
-    rating: 8.9,
+    title: getRandomArrayItem(FilmsData.TITLES),
+    poster: `${FilmsData.POSTER.PATH_BASE}${getRandomArrayItem(FilmsData.POSTER.FILE_NAMES)}`,
+    rating: getRating(FilmsData.RATING.MIN, FilmsData.RATING.MAX, FilmsData.RATING.PRECISION),
     releaseDate: getRandomDate(1950, 20),
-    duration: `1h 18m`, // TODO: в перспективе хранить в минутах и преобразовывать в нужный формат перед рендером?
-    genres: [`Drama`, `Film-Noir`, `Mystery`],
-    description: `The film opens following a murder at a cabaret in Mexico City in 1936, and then presents the events leading up to it in flashback. The Great Flamarion (Erich von Stroheim) is an arrogant, friendless, and misogynous marksman who displays his trick gunshot act in the vaudeville circuit. His show features a beautiful assistant, Connie (Mary Beth Hughes) and her drunken husband Al (Dan Duryea), Flamarion's other assistant. Flamarion falls in love with Connie, the movie's femme fatale, and is soon manipulated by her into killing her no good husband during one of their acts.`,
+    duration: getDuration(FilmsData.DURATION.MIN, FilmsData.DURATION.MAX),
+    genres: [`Drama`, `Film-Noir`, `Mystery`], // TODO
+    description: getDescription(FilmsData.DESCRIPTION.MAX_LENGTH),
     isWatched: Math.random() > 0.5,
     isWatchlisted: Math.random() > 0.5,
     isFavorite: Math.random() > 0.5,

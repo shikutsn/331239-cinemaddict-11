@@ -1,3 +1,8 @@
+const Description = {
+  MAX_LENGTH: 140,
+  TRUNC_SYMBOL: `…`,
+};
+
 const getFilmCardControlMarkup = (isWatchlisted, isWatched, isFavorite) => {
   const isWatchlistedChecked = isWatchlisted ? `film-card__controls-item--active` : ``;
   const iswatchedChecked = isWatched ? `film-card__controls-item--active` : ``;
@@ -13,8 +18,8 @@ const getFilmCardControlMarkup = (isWatchlisted, isWatched, isFavorite) => {
 const createFilmCardElement = (film) => {
   const {title, poster, rating, releaseDate, duration, genres, description, isWatchlisted, isWatched, isFavorite, comments} = film;
   const year = releaseDate.getFullYear();
-  // const duration = `1h 21m`; // TODO: в перспективе хранить в минутах и преобразовывать в нужный формат перед рендером?
   const filmCardControlMarkup = getFilmCardControlMarkup(isWatchlisted, isWatched, isFavorite);
+  const descriptionFormatted = description.length > 140 ? `${description.slice(0, Description.MAX_LENGTH - 1)}${Description.TRUNC_SYMBOL}` : description;
 
   return (
     `<article class="film-card">
@@ -25,8 +30,8 @@ const createFilmCardElement = (film) => {
         <span class="film-card__duration">${duration}</span>
         <span class="film-card__genre">${genres[0]}</span>
       </p>
-      <img src="./images/posters/${poster}" alt="" class="film-card__poster">
-      <p class="film-card__description">${description}</p>
+      <img src="${poster}" alt="" class="film-card__poster">
+      <p class="film-card__description">${descriptionFormatted}</p>
       <a class="film-card__comments">${comments.length} comment(s)</a>
       <form class="film-card__controls">
         ${filmCardControlMarkup}
