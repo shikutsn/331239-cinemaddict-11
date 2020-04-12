@@ -47,8 +47,8 @@ const FilmsData = {
   },
   GENRES: {
     MIN: 1,
-    MAX: 4,
-    SAMPLES: [`Noir`, `Action`, `Horror`, `Sci-Fi`, `Biopic`, `Drama`, `Mystery`, `Historical`],
+    MAX: 3,
+    ITEMS: [`Noir`, `Action`, `Horror`, `Sci-Fi`, `Biopic`, `Drama`, `Mystery`, `Historical`],
   },
   DESCRIPTION: {
     MAX_LENGTH: 5,
@@ -102,12 +102,12 @@ const getDescription = (length) => {
     .join(` `);
 };
 
-const getGenres = (min, max, samples) => {
+const getGenres = (min, max, genres) => {
   const count = getRandomNumber(min, max + 1);
   const targetGenres = new Array(count)
     .fill(``)
     .map(() => {
-      return getRandomArrayItem(samples);
+      return getRandomArrayItem(genres);
     });
 
   return Array.from(new Set(targetGenres)); // удаляет дубликаты
@@ -121,7 +121,7 @@ const generateFilm = () => {
     releaseDate: getRandomDate(FilmsData.RELEASE_DATE.BASE, FilmsData.RELEASE_DATE.DELTA),
     duration: getDuration(FilmsData.DURATION.MIN, FilmsData.DURATION.MAX),
     // TODO единственное/множественное число в большой карточке
-    genres: getGenres(FilmsData.GENRES.MIN, FilmsData.GENRES.MAX, FilmsData.GENRES.SAMPLES),
+    genres: getGenres(FilmsData.GENRES.MIN, FilmsData.GENRES.MAX, FilmsData.GENRES.ITEMS),
     description: getDescription(FilmsData.DESCRIPTION.MAX_LENGTH),
     isWatched: Math.random() > 0.5,
     isWatchlisted: Math.random() > 0.5,

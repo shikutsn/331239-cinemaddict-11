@@ -11,6 +11,17 @@ const createGenreMarkup = (genre) => {
   return `<span class="film-details__genre">${genre}</span>`;
 };
 
+const createGenresMarkup = (genres) => {
+  const genresList = genres.map((it) => createGenreMarkup(it)).join(`\n`);
+  const termValue = genres.length === 1 ? `Genre` : `Genres`;
+  return (
+    `<td class="film-details__term">${termValue}</td>
+    <td class="film-details__cell">
+    ${genresList}</td>`
+  );
+};
+
+// TODO унифицировать имена функций, а то тут то createMarkup, to getMarkup
 const createCommentMarkup = (comment) => {
   const {text, emoji, author, date} = comment;
   const commentDateFormatted = `${date.getFullYear()}/${date.getMonth()}/${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
@@ -52,7 +63,7 @@ const getFilmDetailsControlsMarkup = (isWatchlisted, isWatched, isFavorite) => {
 const createFilmDetailsTemplate = (film) => {
   const {title, poster, rating, releaseDate, duration, genres, description, isWatchlisted, isWatched, isFavorite, comments, titleOriginal, director, writers, actors, country, age} = film;
 
-  const genresMarkup = genres.map((it) => createGenreMarkup(it)).join(`\n`);
+  const genresMarkup = createGenresMarkup(genres);
   // TODO как-то странно, похоже, что все комментарии показываются разом, независимо от их количества
   const commentsMarkup = comments.map(createCommentMarkup).join(`\n`);
   const filmDetailsControlsMarkup = getFilmDetailsControlsMarkup(isWatchlisted, isWatched, isFavorite);
@@ -110,8 +121,6 @@ const createFilmDetailsTemplate = (film) => {
                   <td class="film-details__cell">${country}</td>
                 </tr>
                 <tr class="film-details__row">
-                  <td class="film-details__term">Genres</td>
-                  <td class="film-details__cell">
                     ${genresMarkup}
                 </tr>
               </table>
