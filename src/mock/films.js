@@ -1,26 +1,31 @@
 import {getRandomNumber} from "../utils.js";
 import {getRandomArrayItem} from "../utils.js";
 
-const TEXT_DATA_MOCK = [
-  `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
-  `Cras aliquet varius magna, non porta ligula feugiat eget.`,
-  `Fusce tristique felis at fermentum pharetra.`,
-  `Aliquam id orci ut lectus varius viverra.`,
-  `Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.`,
-  `Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.`,
-  `Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.`,
-  `Sed sed nisi sed augue convallis suscipit in sed felis.`,
-  `Aliquam erat volutpat.`,
-  `Nunc fermentum tortor ac porta dapibus.`,
-  `In rutrum ac purus sit amet tempus.`,
-];
+const GlobalMockData = {
+  TEXT: [
+    `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
+    `Cras aliquet varius magna, non porta ligula feugiat eget.`,
+    `Fusce tristique felis at fermentum pharetra.`,
+    `Aliquam id orci ut lectus varius viverra.`,
+    `Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.`,
+    `Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.`,
+    `Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.`,
+    `Sed sed nisi sed augue convallis suscipit in sed felis.`,
+    `Aliquam erat volutpat.`,
+    `Nunc fermentum tortor ac porta dapibus.`,
+    `In rutrum ac purus sit amet tempus.`,
+  ],
+  NAMES: [
+    `John`, `Max`, `Peter`, `Donald`, `George`, `Bill`, `Arnold`, `Frank`, `Tim`, `Anthony`, `Anne`, `Richard`, `Dick`
+  ],
+  SURNAMES: [
+    `Doe`, `Macoveev`, `Trump`, `Clinton`, `Bush`, `Schwarzenegger`, `Stallone`, `Rock`, `Kid`, `Mann`, `Wigton`, `Wail`, `Thornberg`
+  ],
+};
+
 const CommentsData = {
   MAX_COUNT: 5,
   EMOJI: [`smile`, `sleeping`, `puke`, `angry`],
-  AUTHOR: {
-    NAMES: [`John`, `Max`, `Peter`, `Donald`, `George`, `Bill`, `Arnold`, `Frank`, `Tim`],
-    SURNAMES: [`Doe`, `Macoveev`, `Trump`, `Clinton`, `Bush`, `Schwarzenegger`, `Stallone`, `Rock`, `Kid`],
-  },
   DATE: {
     START: `2015`,
     DELTA: `4`,
@@ -53,6 +58,16 @@ const FilmsData = {
   DESCRIPTION: {
     MAX_LENGTH: 5,
   },
+  WRITERS: {
+    MIN: 1,
+    MAX: 4,
+  },
+  ACTORS: {
+    MIN: 1,
+    MAX: 6,
+  },
+  COUNTRY: [`USA`, `Mexico`, `France`, `Norway`, `Russia`, `Japan`],
+  AGE: [`0+`, `6+`, `12+`, `14+`, `18+`],
 };
 
 const getRandomDate = (startYear, deltaYear) => {
@@ -66,11 +81,19 @@ const getRandomDate = (startYear, deltaYear) => {
   return targetDate;
 };
 
+const getRandomBoolean = () => {
+  return Math.random() > 0.5;
+};
+
+const getRandomPersonName = () => {
+  return `${getRandomArrayItem(GlobalMockData.NAMES)} ${getRandomArrayItem(GlobalMockData.SURNAMES)}`
+}
+
 const getComment = () => {
   return {
-    text: getRandomArrayItem(TEXT_DATA_MOCK),
+    text: getRandomArrayItem(GlobalMockData.TEXT),
     emoji: getRandomArrayItem(CommentsData.EMOJI),
-    author: `${getRandomArrayItem(CommentsData.AUTHOR.NAMES)} ${getRandomArrayItem(CommentsData.AUTHOR.SURNAMES)}`,
+    author: getRandomPersonName(),
     date: getRandomDate(CommentsData.DATE.START, CommentsData.DATE.DELTA),
   };
 };
@@ -97,7 +120,7 @@ const getDescription = (length) => {
   return new Array(length)
     .fill(``)
     .map(() => {
-      return getRandomArrayItem(TEXT_DATA_MOCK);
+      return getRandomArrayItem(GlobalMockData.TEXT);
     })
     .join(` `);
 };
@@ -113,6 +136,16 @@ const getGenres = (min, max, genres) => {
   return Array.from(new Set(targetGenres)); // удаляет дубликаты
 };
 
+const getSetOfNames = (min, max) => {
+  const count = getRandomNumber(min, max + 1);
+  return new Array(count)
+    .fill(``)
+    .map(() => {
+      return getRandomPersonName();
+    })
+    .join(`, `);
+};
+
 const generateFilm = () => {
   return {
     title: getRandomArrayItem(FilmsData.TITLES),
@@ -120,19 +153,18 @@ const generateFilm = () => {
     rating: getRating(FilmsData.RATING.MIN, FilmsData.RATING.MAX, FilmsData.RATING.PRECISION),
     releaseDate: getRandomDate(FilmsData.RELEASE_DATE.BASE, FilmsData.RELEASE_DATE.DELTA),
     duration: getDuration(FilmsData.DURATION.MIN, FilmsData.DURATION.MAX),
-    // TODO единственное/множественное число в большой карточке
     genres: getGenres(FilmsData.GENRES.MIN, FilmsData.GENRES.MAX, FilmsData.GENRES.ITEMS),
     description: getDescription(FilmsData.DESCRIPTION.MAX_LENGTH),
-    isWatched: Math.random() > 0.5,
-    isWatchlisted: Math.random() > 0.5,
-    isFavorite: Math.random() > 0.5,
+    isWatched: getRandomBoolean(),
+    isWatchlisted: getRandomBoolean(),
+    isFavorite: getRandomBoolean(),
     comments: getComments(getRandomNumber(0, CommentsData.MAX_COUNT)),
     titleOriginal: `Original: ${getRandomArrayItem(FilmsData.TITLES)}`,
-    director: `Anthony Mann`,
-    writers: `Anne Wigton, Heinz Herald, Richard Weil`,
-    actors: `Erich von Stroheim, Mary Beth Hughes, Dan Duryea`,
-    country: `USA`,
-    age: `18+`,
+    director: getRandomPersonName(),
+    writers: getSetOfNames(FilmsData.WRITERS.MIN, FilmsData.WRITERS.MAX),
+    actors: getSetOfNames(FilmsData.ACTORS.MIN, FilmsData.ACTORS.MAX),
+    country: getRandomArrayItem(FilmsData.COUNTRY),
+    age: getRandomArrayItem(FilmsData.AGE),
   };
 };
 
