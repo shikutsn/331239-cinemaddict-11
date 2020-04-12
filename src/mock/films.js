@@ -28,22 +28,22 @@ const generateFilm = () => {
         text: `Interesting setting and a good cast`,
         emoji: `smile`,
         author: `Tim Macoveev`,
-        date: `2019/12/31 23:59`,
+        date: getRandomDate(2015, 4),
       }, {
         text: `Booooooooooring`,
         emoji: `sleeping`,
         author: `John Doe`,
-        date: `2 days ago`,
+        date: getRandomDate(2015, 4),
       }, {
         text: `Very very old. Meh`,
         emoji: `puke`,
         author: `John Doe`,
-        date: `2 days ago`,
+        date: getRandomDate(2015, 4),
       }, {
         text: `Almost two hours? Seriously?`,
         emoji: `angry`,
         author: `John Doe`,
-        date: `Today`,
+        date: getRandomDate(2015, 4),
       },
     ],
 

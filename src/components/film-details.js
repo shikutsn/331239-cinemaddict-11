@@ -13,7 +13,8 @@ const createGenreMarkup = (genre) => {
 
 const createCommentMarkup = (comment) => {
   const {text, emoji, author, date} = comment;
-  // TODO дату надо, видимо, как-то преобразовывать - сейчас она просто текстом копируется
+  const commentDateFormatted = `${date.getFullYear()}/${date.getMonth()}/${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
+
   return (
     `<li class="film-details__comment">
     <span class="film-details__comment-emoji">
@@ -23,7 +24,7 @@ const createCommentMarkup = (comment) => {
       <p class="film-details__comment-text">${text}</p>
       <p class="film-details__comment-info">
         <span class="film-details__comment-author">${author}</span>
-        <span class="film-details__comment-day">${date}</span>
+        <span class="film-details__comment-day">${commentDateFormatted}</span>
         <button class="film-details__comment-delete">Delete</button>
       </p>
     </div>
