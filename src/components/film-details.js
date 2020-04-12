@@ -3,26 +3,26 @@ const createGenreMarkup = (genre) => {
 };
 
 const createFilmDetailsTemplate = (film) => {
-  // const {} = film;
+  const {title, poster, rating, releaseDate, duration, genres, description, isWatched, isWatchlisted, isFavorite, commentsCount, titleOriginal, director, writers, actors, country, age} = film;
 
-  const title = `The Great Flamarion`;
-  const poster = `the-great-flamarion.jpg`;
-  const rating = 8.9;
-  const releaseDate = `30 March 1945`; // TODO в перспективе хранить в объекте Date и преобразовывать - подсмотреть в 3-й лекции
-  const duration = `1h 18m`; // TODO: в перспективе хранить в минутах и преобразовывать в нужный формат перед рендером?
-  const genres = [`Drama`, `Film-Noir`, `Mystery`];
-  const description = `The film opens following a murder at a cabaret in Mexico City in 1936, and then presents the events leading up to it in flashback. The Great Flamarion (Erich von Stroheim) is an arrogant, friendless, and misogynous marksman who displays his trick gunshot act in the vaudeville circuit. His show features a beautiful assistant, Connie (Mary Beth Hughes) and her drunken husband Al (Dan Duryea), Flamarion's other assistant. Flamarion falls in love with Connie, the movie's femme fatale, and is soon manipulated by her into killing her no good husband during one of their acts.`;
-  const isWatched = false;
-  const isWatchlisted = true;
-  const isFavorite = true;
-  const commentsCount = 8;
-
-  const titleOriginal = `Original: The Great Flamarion`;
-  const director = `Anthony Mann`;
-  const writers = `Anne Wigton, Heinz Herald, Richard Weil`;
-  const actors = `Erich von Stroheim, Mary Beth Hughes, Dan Duryea`;
-  const country = `USA`;
-  const age = `18+`;
+  // const title = `The Great Flamarion`;
+  // const poster = `the-great-flamarion.jpg`;
+  // const rating = 8.9;
+  // const releaseDate = `30 March 1945`; // TODO в перспективе хранить в объекте Date и преобразовывать - подсмотреть в 3-й лекции
+  // const duration = `1h 18m`; // TODO: в перспективе хранить в минутах и преобразовывать в нужный формат перед рендером?
+  // const genres = [`Drama`, `Film-Noir`, `Mystery`];
+  // const description = `The film opens following a murder at a cabaret in Mexico City in 1936, and then presents the events leading up to it in flashback. The Great Flamarion (Erich von Stroheim) is an arrogant, friendless, and misogynous marksman who displays his trick gunshot act in the vaudeville circuit. His show features a beautiful assistant, Connie (Mary Beth Hughes) and her drunken husband Al (Dan Duryea), Flamarion's other assistant. Flamarion falls in love with Connie, the movie's femme fatale, and is soon manipulated by her into killing her no good husband during one of their acts.`;
+  // const isWatched = false;
+  // const isWatchlisted = true;
+  // const isFavorite = true;
+  // const commentsCount = 8; // TODO на самом деле должен быть массив объектов комментов - доделать в след итерации
+  //
+  // const titleOriginal = `Original: The Great Flamarion`;
+  // const director = `Anthony Mann`;
+  // const writers = `Anne Wigton, Heinz Herald, Richard Weil`;
+  // const actors = `Erich von Stroheim, Mary Beth Hughes, Dan Duryea`;
+  // const country = `USA`;
+  // const age = `18+`;
 
 
   const genresMarkup = genres.map((it) => createGenreMarkup(it)).join(`\n`);

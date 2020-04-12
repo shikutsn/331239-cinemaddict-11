@@ -16,6 +16,7 @@ import {createFilmDetailsTemplate} from "./components/film-details.js";
 const FILMS_ALL_COUNT = 5;
 const FILMS_EXTRA_COUNT = 2;
 const films = generateFilms(FILMS_ALL_COUNT);
+// TODO сделать отдельные моки для топ рейтед и мост уотчд? или на основе просто films - скорее второе
 
 const renderTemplate = (container, template, place = `beforeend`) => {
   container.insertAdjacentHTML(place, template);
@@ -46,18 +47,18 @@ renderTemplate(siteFilmsContainerElement, createFilmsTopRatedElement());
 const siteFilmsTopRatedContainerElement = Array.from(siteFilmsContainerElement.querySelectorAll(`.films-list__container`)).pop();
 
 for (let i = 0; i < FILMS_EXTRA_COUNT; i++) {
-  renderTemplate(siteFilmsTopRatedContainerElement, createFilmCardElement());
+  renderTemplate(siteFilmsTopRatedContainerElement, createFilmCardElement(films[i]));
 }
 
 renderTemplate(siteFilmsContainerElement, createFilmsMostCommentedElement());
 const siteFilmsMostCommentedContainerElement = Array.from(siteFilmsContainerElement.querySelectorAll(`.films-list__container`)).pop();
 
 for (let i = 0; i < FILMS_EXTRA_COUNT; i++) {
-  renderTemplate(siteFilmsMostCommentedContainerElement, createFilmCardElement());
+  renderTemplate(siteFilmsMostCommentedContainerElement, createFilmCardElement(films[i]));
 }
 
 const siteFilmsTotalElement = document.querySelector(`.footer__statistics`);
 const filmsTotal = getFilmsTotalAmount();
 renderTemplate(siteFilmsTotalElement, createFilmsTotalTemplate(filmsTotal));
 
-// renderTemplate(document.querySelector(`body`), createFilmDetailsTemplate());
+// renderTemplate(document.querySelector(`body`), createFilmDetailsTemplate(films[0]));
