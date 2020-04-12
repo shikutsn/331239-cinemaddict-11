@@ -12,7 +12,7 @@ const getFilmCardControlMarkup = (isWatchlisted, isWatched, isFavorite) => {
 
 const createFilmCardElement = (film) => {
   const {title, poster, rating, releaseDate, duration, genres, description, isWatchlisted, isWatched, isFavorite, comments} = film;
-  const year = 1964; // будет вытаскиваться из releaseDate
+  const year = releaseDate.getFullYear();
   // const duration = `1h 21m`; // TODO: в перспективе хранить в минутах и преобразовывать в нужный формат перед рендером?
   const filmCardControlMarkup = getFilmCardControlMarkup(isWatchlisted, isWatched, isFavorite);
 

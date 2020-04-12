@@ -1,3 +1,5 @@
+import {MONTH_NAMES} from "../const.js";
+
 const EmojiMap = {
   smile: `./images/emoji/smile.png`,
   sleeping: `./images/emoji/sleeping.png`,
@@ -53,6 +55,7 @@ const createFilmDetailsTemplate = (film) => {
   // TODO как-то странно, похоже, что все комментарии показываются разом, независимо от их количества
   const commentsMarkup = comments.map(createCommentMarkup).join(`\n`);
   const filmDetailsControlsMarkup = getFilmDetailsControlsMarkup(isWatchlisted, isWatched, isFavorite);
+  const releaseDateFormatted = `${releaseDate.getDate()} ${MONTH_NAMES[releaseDate.getMonth()]} ${releaseDate.getFullYear()}`;
 
 
   // в большой картоке булевские переменные соответствуют чекбоксам (то есть тру/фолс напрямую)
@@ -98,7 +101,7 @@ const createFilmDetailsTemplate = (film) => {
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Release Date</td>
-                  <td class="film-details__cell">${releaseDate}</td>
+                  <td class="film-details__cell">${releaseDateFormatted}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Runtime</td>

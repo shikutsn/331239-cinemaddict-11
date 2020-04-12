@@ -1,9 +1,22 @@
+import {getRandomNumber} from "../utils.js";
+
+const getRandomDate = () => {
+  const targetDate = new Date(`1950`);
+  const sign = Math.random() > 0.5 ? 1 : -1;
+  const diffValue = sign * getRandomNumber(0, 630720000000); // плюс-минус 20 лет
+
+  targetDate.setTime(targetDate.getTime() + diffValue);
+
+  return targetDate;
+};
+
 const generateFilm = () => {
   return {
     title: `The Great Flamarion`,
     poster: `the-great-flamarion.jpg`,
     rating: 8.9,
-    releaseDate: `30 March 1945`, // TODO в перспективе хранить в объекте Date и преобразовывать - подсмотреть в 3-й лекции
+    // releaseDate: `30 March 1945`, // TODO в перспективе хранить в объекте Date и преобразовывать - подсмотреть в 3-й лекции
+    releaseDate: getRandomDate(),
     duration: `1h 18m`, // TODO: в перспективе хранить в минутах и преобразовывать в нужный формат перед рендером?
     genres: [`Drama`, `Film-Noir`, `Mystery`],
     description: `The film opens following a murder at a cabaret in Mexico City in 1936, and then presents the events leading up to it in flashback. The Great Flamarion (Erich von Stroheim) is an arrogant, friendless, and misogynous marksman who displays his trick gunshot act in the vaudeville circuit. His show features a beautiful assistant, Connie (Mary Beth Hughes) and her drunken husband Al (Dan Duryea), Flamarion's other assistant. Flamarion falls in love with Connie, the movie's femme fatale, and is soon manipulated by her into killing her no good husband during one of their acts.`,
