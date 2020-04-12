@@ -9,11 +9,13 @@ import {createFilmsMostCommentedElement} from "./components/films-most-commented
 import {createFilmsTotalTemplate} from "./components/films-total.js";
 import {getFilmsWatchedAmount} from "./mock/global.js";
 import {getFilmsTotalAmount} from "./mock/global.js";
-// import {createFilmDetailsTemplate} from "./components/film-details.js";
+import {generateFilms} from "./mock/films.js";
+import {createFilmDetailsTemplate} from "./components/film-details.js";
 
 
 const FILMS_ALL_COUNT = 5;
-const FILMS_EXTRA_COUNT = 2;
+const FILMS_EXTRA_COUNT = 2; // TODO Посмотреть, как верстка будет реагировать если не под 2 , а по 3 или 5 фильмов в расширенных категориях
+const films = generateFilms(FILMS_ALL_COUNT);
 
 const renderTemplate = (container, template, place = `beforeend`) => {
   container.insertAdjacentHTML(place, template);
@@ -32,8 +34,8 @@ renderTemplate(siteFilmsContainerElement, createFilmsAllMoviesElement());
 
 const siteFilmsAllMoviesContainerElement = siteFilmsContainerElement.querySelector(`.films-list__container`);
 
-for (let i = 0; i < FILMS_ALL_COUNT; i++) {
-  renderTemplate(siteFilmsAllMoviesContainerElement, createFilmCardElement());
+for (let i = 0; i < films.length; i++) {
+  renderTemplate(siteFilmsAllMoviesContainerElement, createFilmCardElement(films[i]));
 }
 
 const siteFilmsAllMoviesElement = siteFilmsContainerElement.querySelector(`.films-list`);

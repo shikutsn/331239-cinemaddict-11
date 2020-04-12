@@ -1,4 +1,6 @@
-export const createFilmCardElement = () => {
+export const createFilmCardElement = (film) => {
+  const {} = film;
+
   return (
     `<article class="film-card">
       <h3 class="film-card__title">Santa Claus Conquers the Martians</h3>
