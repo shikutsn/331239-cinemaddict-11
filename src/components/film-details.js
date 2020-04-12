@@ -1,9 +1,22 @@
+const EmojiMap = {
+  smile: `./images/emoji/smile.png`,
+  sleeping: `./images/emoji/sleeping.png`,
+  puke: `./images/emoji/puke.png`,
+  angry: `./images/emoji/angry.png`,
+}
+
 const createGenreMarkup = (genre) => {
   return `<span class="film-details__genre">${genre}</span>`;
 };
 
+const createCommentsMarkup = (comments) => {
+  // TODO как-то странно, похоже, что все комментарии показываются разом, независимо от их количества
+
+};
+
 const createFilmDetailsTemplate = (film) => {
-  const {title, poster, rating, releaseDate, duration, genres, description, isWatched, isWatchlisted, isFavorite, commentsCount, titleOriginal, director, writers, actors, country, age} = film;
+  const {title, poster, rating, releaseDate, duration, genres, description, isWatched, isWatchlisted, isFavorite, comments, titleOriginal, director, writers, actors, country, age} = film;
+
 
   // const title = `The Great Flamarion`;
   // const poster = `the-great-flamarion.jpg`;
@@ -26,6 +39,8 @@ const createFilmDetailsTemplate = (film) => {
 
 
   const genresMarkup = genres.map((it) => createGenreMarkup(it)).join(`\n`);
+
+  console.log(EmojiMap[`smile`]);
 
   return (
     `<section class="film-details">
@@ -105,7 +120,7 @@ const createFilmDetailsTemplate = (film) => {
 
         <div class="form-details__bottom-container">
           <section class="film-details__comments-wrap">
-            <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentsCount}</span></h3>
+            <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
 
             <ul class="film-details__comments-list">
               <li class="film-details__comment">

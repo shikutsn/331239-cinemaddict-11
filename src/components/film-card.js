@@ -1,5 +1,5 @@
 export const createFilmCardElement = (film) => {
-  const {title, poster, rating, releaseDate, duration, genres, description, isWatched, isWatchlisted, isFavorite, commentsCount} = film;
+  const {title, poster, rating, releaseDate, duration, genres, description, isWatched, isWatchlisted, isFavorite, comments} = film;
   const year = 1964; // будет вытаскиваться из releaseDate
   const genre = genres[0];
 
@@ -31,7 +31,7 @@ export const createFilmCardElement = (film) => {
       </p>
       <img src="./images/posters/${poster}" alt="" class="film-card__poster">
       <p class="film-card__description">${description}</p>
-      <a class="film-card__comments">${commentsCount} comment(s)</a>
+      <a class="film-card__comments">${comments.length} comment(s)</a>
       <form class="film-card__controls">
         <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist">Add to watchlist</button>
         <button class="film-card__controls-item button film-card__controls-item--mark-as-watched">Mark as watched</button>

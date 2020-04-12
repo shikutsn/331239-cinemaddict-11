@@ -10,7 +10,29 @@ const generateFilm = () => {
     isWatched: false,
     isWatchlisted: true,
     isFavorite: true,
-    commentsCount: 8,
+    comments: [
+      {
+        text: `Interesting setting and a good cast`,
+        emoji: `smile`,
+        author: `Tim Macoveev`,
+        date: `2019/12/31 23:59`,
+      }, {
+        text: `Booooooooooring`,
+        emoji: `sleeping`,
+        author: `John Doe`,
+        date: `2 days ago`,
+      }, {
+        text: `Very very old. Meh`,
+        emoji: `puke`,
+        author: `John Doe`,
+        date: `2 days ago`,
+      }, {
+        text: `Almost two hours? Seriously?`,
+        emoji: `angry`,
+        author: `John Doe`,
+        date: `Today`,
+      },
+    ],
 
     titleOriginal: `Original: The Great Flamarion`,
     director: `Anthony Mann`,
