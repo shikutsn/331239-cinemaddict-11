@@ -37,9 +37,18 @@ const FilmsData = {
     MAX: 90,
     PRECISION: 1, // число точек после запятой
   },
+  RELEASE_DATE: {
+    BASE: 1950,
+    DELTA: 20,
+  },
   DURATION: {
     MIN: 80,
     MAX: 180,
+  },
+  GENRES: {
+    MIN: 1,
+    MAX: 4,
+    SAMPLES: [`Noir`, `Action`, `Horror`, `Sci-Fi`, `Biopic`, `Drama`, `Mystery`, `Historical`],
   },
   DESCRIPTION: {
     MAX_LENGTH: 5,
@@ -86,11 +95,22 @@ const getDuration = (min, max) => {
 
 const getDescription = (length) => {
   return new Array(length)
-  .fill(``)
-  .map(() => {
-    return getRandomArrayItem(TEXT_DATA_MOCK);
-  })
-  .join(` `);
+    .fill(``)
+    .map(() => {
+      return getRandomArrayItem(TEXT_DATA_MOCK);
+    })
+    .join(` `);
+};
+
+const getGenres = (min, max, samples) => {
+  const count = getRandomNumber(min, max + 1);
+  const targetGenres = new Array(count)
+    .fill(``)
+    .map(() => {
+      return getRandomArrayItem(samples);
+    });
+
+  return Array.from(new Set(targetGenres)); // удаляет дубликаты
 };
 
 const generateFilm = () => {
@@ -98,15 +118,16 @@ const generateFilm = () => {
     title: getRandomArrayItem(FilmsData.TITLES),
     poster: `${FilmsData.POSTER.PATH_BASE}${getRandomArrayItem(FilmsData.POSTER.FILE_NAMES)}`,
     rating: getRating(FilmsData.RATING.MIN, FilmsData.RATING.MAX, FilmsData.RATING.PRECISION),
-    releaseDate: getRandomDate(1950, 20),
+    releaseDate: getRandomDate(FilmsData.RELEASE_DATE.BASE, FilmsData.RELEASE_DATE.DELTA),
     duration: getDuration(FilmsData.DURATION.MIN, FilmsData.DURATION.MAX),
-    genres: [`Drama`, `Film-Noir`, `Mystery`], // TODO
+    // TODO единственное/множественное число в большой карточке
+    genres: getGenres(FilmsData.GENRES.MIN, FilmsData.GENRES.MAX, FilmsData.GENRES.SAMPLES),
     description: getDescription(FilmsData.DESCRIPTION.MAX_LENGTH),
     isWatched: Math.random() > 0.5,
     isWatchlisted: Math.random() > 0.5,
     isFavorite: Math.random() > 0.5,
     comments: getComments(getRandomNumber(0, CommentsData.MAX_COUNT)),
-    titleOriginal: `Original: The Great Flamarion`,
+    titleOriginal: `Original: ${getRandomArrayItem(FilmsData.TITLES)}`,
     director: `Anthony Mann`,
     writers: `Anne Wigton, Heinz Herald, Richard Weil`,
     actors: `Erich von Stroheim, Mary Beth Hughes, Dan Duryea`,
