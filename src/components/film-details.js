@@ -3,44 +3,38 @@ const EmojiMap = {
   sleeping: `./images/emoji/sleeping.png`,
   puke: `./images/emoji/puke.png`,
   angry: `./images/emoji/angry.png`,
-}
+};
 
 const createGenreMarkup = (genre) => {
   return `<span class="film-details__genre">${genre}</span>`;
 };
 
-const createCommentsMarkup = (comments) => {
-  // TODO как-то странно, похоже, что все комментарии показываются разом, независимо от их количества
-
+const createCommentMarkup = (comment) => {
+  const {text, emoji, author, date} = comment;
+  // TODO дату надо, видимо, как-то преобразовывать - сейчас она просто текстом копируется
+  return (
+    `<li class="film-details__comment">
+    <span class="film-details__comment-emoji">
+      <img src="${EmojiMap[emoji]}" width="55" height="55" alt="emoji-${emoji}">
+    </span>
+    <div>
+      <p class="film-details__comment-text">${text}</p>
+      <p class="film-details__comment-info">
+        <span class="film-details__comment-author">${author}</span>
+        <span class="film-details__comment-day">${date}</span>
+        <button class="film-details__comment-delete">Delete</button>
+      </p>
+    </div>
+  </li>`
+  );
 };
 
 const createFilmDetailsTemplate = (film) => {
   const {title, poster, rating, releaseDate, duration, genres, description, isWatched, isWatchlisted, isFavorite, comments, titleOriginal, director, writers, actors, country, age} = film;
 
-
-  // const title = `The Great Flamarion`;
-  // const poster = `the-great-flamarion.jpg`;
-  // const rating = 8.9;
-  // const releaseDate = `30 March 1945`; // TODO в перспективе хранить в объекте Date и преобразовывать - подсмотреть в 3-й лекции
-  // const duration = `1h 18m`; // TODO: в перспективе хранить в минутах и преобразовывать в нужный формат перед рендером?
-  // const genres = [`Drama`, `Film-Noir`, `Mystery`];
-  // const description = `The film opens following a murder at a cabaret in Mexico City in 1936, and then presents the events leading up to it in flashback. The Great Flamarion (Erich von Stroheim) is an arrogant, friendless, and misogynous marksman who displays his trick gunshot act in the vaudeville circuit. His show features a beautiful assistant, Connie (Mary Beth Hughes) and her drunken husband Al (Dan Duryea), Flamarion's other assistant. Flamarion falls in love with Connie, the movie's femme fatale, and is soon manipulated by her into killing her no good husband during one of their acts.`;
-  // const isWatched = false;
-  // const isWatchlisted = true;
-  // const isFavorite = true;
-  // const commentsCount = 8; // TODO на самом деле должен быть массив объектов комментов - доделать в след итерации
-  //
-  // const titleOriginal = `Original: The Great Flamarion`;
-  // const director = `Anthony Mann`;
-  // const writers = `Anne Wigton, Heinz Herald, Richard Weil`;
-  // const actors = `Erich von Stroheim, Mary Beth Hughes, Dan Duryea`;
-  // const country = `USA`;
-  // const age = `18+`;
-
-
   const genresMarkup = genres.map((it) => createGenreMarkup(it)).join(`\n`);
-
-  console.log(EmojiMap[`smile`]);
+  // TODO как-то странно, похоже, что все комментарии показываются разом, независимо от их количества
+  const commentsMarkup = comments.map(createCommentMarkup).join(`\n`);
 
   return (
     `<section class="film-details">
@@ -53,7 +47,7 @@ const createFilmDetailsTemplate = (film) => {
             <div class="film-details__poster">
               <img class="film-details__poster-img" src="./images/posters/${poster}" alt="">
 
-              <p class="film-details__age"></p>
+              <p class="film-details__age">${age}</p>
             </div>
 
             <div class="film-details__info">
@@ -123,58 +117,7 @@ const createFilmDetailsTemplate = (film) => {
             <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
 
             <ul class="film-details__comments-list">
-              <li class="film-details__comment">
-                <span class="film-details__comment-emoji">
-                  <img src="./images/emoji/smile.png" width="55" height="55" alt="emoji-smile">
-                </span>
-                <div>
-                  <p class="film-details__comment-text">Interesting setting and a good cast</p>
-                  <p class="film-details__comment-info">
-                    <span class="film-details__comment-author">Tim Macoveev</span>
-                    <span class="film-details__comment-day">2019/12/31 23:59</span>
-                    <button class="film-details__comment-delete">Delete</button>
-                  </p>
-                </div>
-              </li>
-              <li class="film-details__comment">
-                <span class="film-details__comment-emoji">
-                  <img src="./images/emoji/sleeping.png" width="55" height="55" alt="emoji-sleeping">
-                </span>
-                <div>
-                  <p class="film-details__comment-text">Booooooooooring</p>
-                  <p class="film-details__comment-info">
-                    <span class="film-details__comment-author">John Doe</span>
-                    <span class="film-details__comment-day">2 days ago</span>
-                    <button class="film-details__comment-delete">Delete</button>
-                  </p>
-                </div>
-              </li>
-              <li class="film-details__comment">
-                <span class="film-details__comment-emoji">
-                  <img src="./images/emoji/puke.png" width="55" height="55" alt="emoji-puke">
-                </span>
-                <div>
-                  <p class="film-details__comment-text">Very very old. Meh</p>
-                  <p class="film-details__comment-info">
-                    <span class="film-details__comment-author">John Doe</span>
-                    <span class="film-details__comment-day">2 days ago</span>
-                    <button class="film-details__comment-delete">Delete</button>
-                  </p>
-                </div>
-              </li>
-              <li class="film-details__comment">
-                <span class="film-details__comment-emoji">
-                  <img src="./images/emoji/angry.png" width="55" height="55" alt="emoji-angry">
-                </span>
-                <div>
-                  <p class="film-details__comment-text">Almost two hours? Seriously?</p>
-                  <p class="film-details__comment-info">
-                    <span class="film-details__comment-author">John Doe</span>
-                    <span class="film-details__comment-day">Today</span>
-                    <button class="film-details__comment-delete">Delete</button>
-                  </p>
-                </div>
-              </li>
+              ${commentsMarkup}
             </ul>
 
             <div class="film-details__new-comment">
