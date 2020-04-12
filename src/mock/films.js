@@ -1,6 +1,6 @@
 import {getRandomNumber} from "../utils.js";
+import {getRandomArrayItem} from "../utils.js";
 
-// const COMMENTS_MAX = 5;
 const TEXT_DATA_MOCK = [
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
   `Cras aliquet varius magna, non porta ligula feugiat eget.`,
@@ -22,10 +22,17 @@ const CommentsData = {
     SURNAMES: [`Doe`, `Macoveev`, `Trump`, `Clinton`, `Bush`, `Schwarzenegger`, `Stallone`, `Rock`, `Kid`],
   },
   DATE: {
-    STARTING: `2015`,
+    START: `2015`,
     DELTA: `4`,
   }
 };
+// const FilmsData = {
+//   TITLES: [`The Dance of Life`, `Sagebrush Trail`, `The Man with the Golden Arm`, `Santa Claus Conquers the Martians`, `Popeye the Sailor Meets Sindbad the Sailor`, `Virus`, `Andromeda Stain`, `Mad Max: Fury Road`, `Terminator 2: Judgement Day`, `Game of Thrones`, `The Life of Pi`, `Raid: The Redemption`, `Casino Royale`, `The Saw`],
+//   POSTER: {
+//     PATH_BASE: `./images/posters/`,
+//     FILE_NAMES: [`sagebrush-trail.jpg`, `santa-claus-conquers-the-martians.jpg`, `the-dance-of-life.jpg`, `the-great-flamarion.jpg`, `the-man-with-the-golden-arm.jpg`, `made-for-each-other.png`, `popeye-meets-sinbad.png`],
+//   },
+// };
 
 const getRandomDate = (startYear, deltaYear) => {
   // возвращает случайную дату в интервале (startYear - deltaYear) - (startYear + deltaYear)
@@ -40,10 +47,10 @@ const getRandomDate = (startYear, deltaYear) => {
 
 const getComment = () => {
   return {
-    text: TEXT_DATA_MOCK[getRandomNumber(0, TEXT_DATA_MOCK.length)],
-    emoji: CommentsData.EMOJI[getRandomNumber(0, CommentsData.EMOJI.length)],
-    author: `${CommentsData.AUTHOR.NAMES[getRandomNumber(0, CommentsData.AUTHOR.NAMES.length)]} ${CommentsData.AUTHOR.SURNAMES[getRandomNumber(0, CommentsData.AUTHOR.SURNAMES.length)]}`,
-    date: getRandomDate(CommentsData.DATE.STARTING, CommentsData.DATE.DELTA),
+    text: getRandomArrayItem(TEXT_DATA_MOCK),
+    emoji: getRandomArrayItem(CommentsData.EMOJI),
+    author: `${getRandomArrayItem(CommentsData.AUTHOR.NAMES)} ${getRandomArrayItem(CommentsData.AUTHOR.SURNAMES)}`,
+    date: getRandomDate(CommentsData.DATE.START, CommentsData.DATE.DELTA),
   };
 };
 
