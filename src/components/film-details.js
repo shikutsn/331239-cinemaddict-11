@@ -29,12 +29,33 @@ const createCommentMarkup = (comment) => {
   );
 };
 
+const getFilmDetailsControlsMarkup = (isWatchlisted, isWatched, isFavorite) => {
+  const isWatchlistedChecked = isWatchlisted ? `checked` : ``;
+  const iswatchedChecked = isWatched ? `checked` : ``;
+  const isFavoriteChecked = isFavorite ? `checked` : ``;
+
+  return (
+    `<input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${isWatchlistedChecked}>
+    <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
+
+    <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${iswatchedChecked}>
+    <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
+
+    <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${isFavoriteChecked}>
+    <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>`
+  );
+};
+
 const createFilmDetailsTemplate = (film) => {
-  const {title, poster, rating, releaseDate, duration, genres, description, isWatched, isWatchlisted, isFavorite, comments, titleOriginal, director, writers, actors, country, age} = film;
+  const {title, poster, rating, releaseDate, duration, genres, description, isWatchlisted, isWatched, isFavorite, comments, titleOriginal, director, writers, actors, country, age} = film;
 
   const genresMarkup = genres.map((it) => createGenreMarkup(it)).join(`\n`);
   // TODO как-то странно, похоже, что все комментарии показываются разом, независимо от их количества
   const commentsMarkup = comments.map(createCommentMarkup).join(`\n`);
+  const filmDetailsControlsMarkup = getFilmDetailsControlsMarkup(isWatchlisted, isWatched, isFavorite);
+
+
+  // в большой картоке булевские переменные соответствуют чекбоксам (то есть тру/фолс напрямую)
 
   return (
     `<section class="film-details">
@@ -101,14 +122,7 @@ const createFilmDetailsTemplate = (film) => {
           </div>
 
           <section class="film-details__controls">
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
-            <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
-
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched">
-            <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
-
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
-            <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
+            ${filmDetailsControlsMarkup}
           </section>
         </div>
 
