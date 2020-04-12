@@ -14,7 +14,7 @@ import {createFilmDetailsTemplate} from "./components/film-details.js";
 
 
 const FILMS_ALL_COUNT = 5;
-const FILMS_EXTRA_COUNT = 2; // TODO Посмотреть, как верстка будет реагировать если не под 2 , а по 3 или 5 фильмов в расширенных категориях
+const FILMS_EXTRA_COUNT = 2;
 const films = generateFilms(FILMS_ALL_COUNT);
 
 const renderTemplate = (container, template, place = `beforeend`) => {
