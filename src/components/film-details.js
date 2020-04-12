@@ -57,9 +57,6 @@ const createFilmDetailsTemplate = (film) => {
   const filmDetailsControlsMarkup = getFilmDetailsControlsMarkup(isWatchlisted, isWatched, isFavorite);
   const releaseDateFormatted = `${releaseDate.getDate()} ${MONTH_NAMES[releaseDate.getMonth()]} ${releaseDate.getFullYear()}`;
 
-
-  // в большой картоке булевские переменные соответствуют чекбоксам (то есть тру/фолс напрямую)
-
   return (
     `<section class="film-details">
       <form class="film-details__inner" action="" method="get">
