@@ -1,5 +1,32 @@
 import {getRandomNumber} from "../utils.js";
 
+// const COMMENTS_MAX = 5;
+const TEXT_DATA_MOCK = [
+  `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
+  `Cras aliquet varius magna, non porta ligula feugiat eget.`,
+  `Fusce tristique felis at fermentum pharetra.`,
+  `Aliquam id orci ut lectus varius viverra.`,
+  `Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.`,
+  `Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.`,
+  `Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.`,
+  `Sed sed nisi sed augue convallis suscipit in sed felis.`,
+  `Aliquam erat volutpat.`,
+  `Nunc fermentum tortor ac porta dapibus.`,
+  `In rutrum ac purus sit amet tempus.`,
+];
+const CommentsData = {
+  MAX_COUNT: 5,
+  EMOJI: [`smile`, `sleeping`, `puke`, `angry`],
+  AUTHOR: {
+    NAMES: [`John`, `Max`, `Peter`, `Donald`, `George`, `Bill`, `Arnold`, `Frank`, `Tim`],
+    SURNAMES: [`Doe`, `Macoveev`, `Trump`, `Clinton`, `Bush`, `Schwarzenegger`, `Stallone`, `Rock`, `Kid`],
+  },
+  DATE: {
+    STARTING: `2015`,
+    DELTA: `4`,
+  }
+};
+
 const getRandomDate = (startYear, deltaYear) => {
   // возвращает случайную дату в интервале (startYear - deltaYear) - (startYear + deltaYear)
   const targetDate = new Date(String(startYear));
@@ -9,6 +36,21 @@ const getRandomDate = (startYear, deltaYear) => {
   targetDate.setTime(targetDate.getTime() + diffValue);
 
   return targetDate;
+};
+
+const getComment = () => {
+  return {
+    text: TEXT_DATA_MOCK[getRandomNumber(0, TEXT_DATA_MOCK.length)],
+    emoji: CommentsData.EMOJI[getRandomNumber(0, CommentsData.EMOJI.length)],
+    author: `${CommentsData.AUTHOR.NAMES[getRandomNumber(0, CommentsData.AUTHOR.NAMES.length)]} ${CommentsData.AUTHOR.SURNAMES[getRandomNumber(0, CommentsData.AUTHOR.SURNAMES.length)]}`,
+    date: getRandomDate(CommentsData.DATE.STARTING, CommentsData.DATE.DELTA),
+  };
+};
+
+const getComments = (count) => {
+  return new Array(count)
+    .fill(``)
+    .map(getComment);
 };
 
 const generateFilm = () => {
@@ -23,30 +65,7 @@ const generateFilm = () => {
     isWatched: Math.random() > 0.5,
     isWatchlisted: Math.random() > 0.5,
     isFavorite: Math.random() > 0.5,
-    comments: [
-      {
-        text: `Interesting setting and a good cast`,
-        emoji: `smile`,
-        author: `Tim Macoveev`,
-        date: getRandomDate(2015, 4),
-      }, {
-        text: `Booooooooooring`,
-        emoji: `sleeping`,
-        author: `John Doe`,
-        date: getRandomDate(2015, 4),
-      }, {
-        text: `Very very old. Meh`,
-        emoji: `puke`,
-        author: `John Doe`,
-        date: getRandomDate(2015, 4),
-      }, {
-        text: `Almost two hours? Seriously?`,
-        emoji: `angry`,
-        author: `John Doe`,
-        date: getRandomDate(2015, 4),
-      },
-    ],
-
+    comments: getComments(getRandomNumber(0, CommentsData.MAX_COUNT)),
     titleOriginal: `Original: The Great Flamarion`,
     director: `Anthony Mann`,
     writers: `Anne Wigton, Heinz Herald, Richard Weil`,
