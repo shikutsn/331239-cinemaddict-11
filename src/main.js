@@ -12,15 +12,16 @@ import {getFilmsTotalAmount} from "./mock/global.js";
 import {generateFilms} from "./mock/films.js";
 import {createFilmDetailsTemplate} from "./components/film-details.js";
 import {createFiltersTemplate} from "./components/filters.js";
+import {generateFilters} from "./mock/filters.js";
 
 
 const FILMS_ALL_COUNT = 17;
 const FILMS_EXTRA_COUNT = 2;
 const FILMS_PER_PAGE = 5;
 const films = generateFilms(FILMS_ALL_COUNT);
-const filmsSortedByCommentsCount = films.slice().sort((a, b) => b.comments.length - a.comments.length);
+const filmsSortedByComments = films.slice().sort((a, b) => b.comments.length - a.comments.length);
 const filmsSortedByRating = films.slice().sort((a, b) => b.rating - a.rating);
-// TODO возможно, чтобы не хранить три копии массива с фильмами (а если их 150к?) следует хранить отсортированные индексы изначального массива
+const filters = generateFilters();
 
 const renderTemplate = (container, template, place = `beforeend`) => {
   container.insertAdjacentHTML(place, template);
@@ -34,7 +35,7 @@ const siteMainElement = document.querySelector(`.main`);
 renderTemplate(siteMainElement, createMainNavigationTemplate());
 
 const siteNavigationElement = siteMainElement.querySelector(`.main-navigation`);
-renderTemplate(siteNavigationElement, createFiltersTemplate(), `afterbegin`);
+renderTemplate(siteNavigationElement, createFiltersTemplate(filters, films), `afterbegin`);
 
 renderTemplate(siteMainElement, createFilmsBoardTemplate());
 
@@ -73,7 +74,7 @@ filmsSortedByRating.slice(0, FILMS_EXTRA_COUNT).forEach((film) => renderTemplate
 renderTemplate(siteFilmsContainerElement, createFilmsMostCommentedElement());
 const siteFilmsMostCommentedContainerElement = Array.from(siteFilmsContainerElement.querySelectorAll(`.films-list__container`)).pop();
 
-filmsSortedByCommentsCount.slice(0, FILMS_EXTRA_COUNT).forEach((film) => renderTemplate(siteFilmsMostCommentedContainerElement, createFilmCardElement(film)));
+filmsSortedByComments.slice(0, FILMS_EXTRA_COUNT).forEach((film) => renderTemplate(siteFilmsMostCommentedContainerElement, createFilmCardElement(film)));
 
 const siteFilmsTotalElement = document.querySelector(`.footer__statistics`);
 const filmsTotal = getFilmsTotalAmount();
