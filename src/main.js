@@ -13,6 +13,8 @@ import {generateFilms} from "./mock/films.js";
 import {createFilmDetailsTemplate} from "./components/film-details.js";
 import {createFiltersTemplate} from "./components/filters.js";
 import {generateFilters} from "./mock/filters.js";
+import {createSortingButtonsTemplate} from "./components/sorting-buttons.js";
+import {ESC_KEYCODE} from "./const.js";
 
 
 const FILMS_ALL_COUNT = 17;
@@ -37,6 +39,7 @@ renderTemplate(siteMainElement, createMainNavigationTemplate());
 const siteNavigationElement = siteMainElement.querySelector(`.main-navigation`);
 renderTemplate(siteNavigationElement, createFiltersTemplate(filters, films), `afterbegin`);
 
+renderTemplate(siteMainElement, createSortingButtonsTemplate());
 renderTemplate(siteMainElement, createFilmsBoardTemplate());
 
 const siteFilmsContainerElement = siteMainElement.querySelector(`.films`);
@@ -80,4 +83,28 @@ const siteFilmsTotalElement = document.querySelector(`.footer__statistics`);
 const filmsTotal = getFilmsTotalAmount();
 renderTemplate(siteFilmsTotalElement, createFilmsTotalTemplate(filmsTotal));
 
-// renderTemplate(document.querySelector(`body`), createFilmDetailsTemplate(films[0]));
+// тест
+// siteFilmsAllMoviesContainerElement.querySelectorAll(`.film-card`).forEach((it) => it.remove());
+
+const siteBodyElement = document.querySelector(`body`);
+
+const closeFilmDetails = () => {
+  siteBodyElement.querySelector(`.film-details__close-btn`).removeEventListener(`click`, onFilmDetailsCloseButtonClick);
+  document.removeEventListener(`keydown`, onFilmDetailsEscPress);
+  siteBodyElement.querySelector(`.film-details`).remove();
+};
+
+const onFilmDetailsCloseButtonClick = () => closeFilmDetails();
+const onFilmDetailsEscPress = (evt) => evt.keyCode === ESC_KEYCODE ? closeFilmDetails() : false;
+
+const onFilmsAllCardClick = (evt) => {
+  const clickedFilmCard = evt.target.closest(`.film-card`);
+
+  if (clickedFilmCard) {
+    const clickedFilmCardIndex = Array.from(siteFilmsAllMoviesContainerElement.querySelectorAll(`.film-card`)).indexOf(clickedFilmCard);
+    renderTemplate(siteBodyElement, createFilmDetailsTemplate(films[clickedFilmCardIndex]));
+    siteBodyElement.querySelector(`.film-details__close-btn`).addEventListener(`click`, onFilmDetailsCloseButtonClick);
+    document.addEventListener(`keydown`, onFilmDetailsEscPress);
+  }
+};
+siteFilmsAllMoviesContainerElement.addEventListener(`click`, onFilmsAllCardClick);
