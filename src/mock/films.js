@@ -1,5 +1,6 @@
 import {getRandomNumber} from "../utils.js";
 import {getRandomArrayItem} from "../utils.js";
+import {removeDuplicates} from "../utils.js";
 
 const GlobalMockData = {
   TEXT: [
@@ -31,6 +32,7 @@ const CommentsData = {
     DELTA: `4`,
   }
 };
+
 const FilmsData = {
   TITLES: [`The Dance of Life`, `Sagebrush Trail`, `The Man with the Golden Arm`, `Santa Claus Conquers the Martians`, `Popeye the Sailor Meets Sindbad the Sailor`, `Virus`, `Andromeda Strain`, `Mad Max: Fury Road`, `Terminator 2: Judgement Day`, `Game of Thrones`, `The Life of Pi`, `Raid: The Redemption`, `Casino Royale`, `The Saw`],
   POSTER: {
@@ -56,6 +58,7 @@ const FilmsData = {
     ITEMS: [`Noir`, `Action`, `Horror`, `Sci-Fi`, `Biopic`, `Drama`, `Mystery`, `Historical`],
   },
   DESCRIPTION: {
+    MIN_LENGTH: 1,
     MAX_LENGTH: 5,
   },
   WRITERS: {
@@ -86,8 +89,8 @@ const getRandomBoolean = () => {
 };
 
 const getRandomPersonName = () => {
-  return `${getRandomArrayItem(GlobalMockData.NAMES)} ${getRandomArrayItem(GlobalMockData.SURNAMES)}`
-}
+  return `${getRandomArrayItem(GlobalMockData.NAMES)} ${getRandomArrayItem(GlobalMockData.SURNAMES)}`;
+};
 
 const getComment = () => {
   return {
@@ -116,8 +119,9 @@ const getDuration = (min, max) => {
   return `${Math.floor(targetDuration / 60)}h ${targetDuration % 60}m`;
 };
 
-const getDescription = (length) => {
-  return new Array(length)
+const getDescription = (min, max) => {
+  const count = getRandomNumber(min, max);
+  return new Array(count)
     .fill(``)
     .map(() => {
       return getRandomArrayItem(GlobalMockData.TEXT);
@@ -133,7 +137,7 @@ const getGenres = (min, max, genres) => {
       return getRandomArrayItem(genres);
     });
 
-  return Array.from(new Set(targetGenres)); // удаляет дубликаты
+  return removeDuplicates(targetGenres);
 };
 
 const getSetOfNames = (min, max) => {
@@ -154,7 +158,7 @@ const generateFilm = () => {
     releaseDate: getRandomDate(FilmsData.RELEASE_DATE.BASE, FilmsData.RELEASE_DATE.DELTA),
     duration: getDuration(FilmsData.DURATION.MIN, FilmsData.DURATION.MAX),
     genres: getGenres(FilmsData.GENRES.MIN, FilmsData.GENRES.MAX, FilmsData.GENRES.ITEMS),
-    description: getDescription(FilmsData.DESCRIPTION.MAX_LENGTH),
+    description: getDescription(FilmsData.DESCRIPTION.MIN_LENGTH, FilmsData.DESCRIPTION.MAX_LENGTH),
     isWatched: getRandomBoolean(),
     isWatchlisted: getRandomBoolean(),
     isFavorite: getRandomBoolean(),

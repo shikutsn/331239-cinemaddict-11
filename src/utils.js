@@ -7,4 +7,8 @@ const getRandomArrayItem = (array) => {
   return array[getRandomNumber(0, array.length)];
 };
 
-export {getRandomNumber, getRandomArrayItem};
+const removeDuplicates = (array) => {
+  return array.filter((item, position) => array.indexOf(item) === position);
+};
+
+export {getRandomNumber, getRandomArrayItem, removeDuplicates};

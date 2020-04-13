@@ -43,7 +43,7 @@ const createCommentMarkup = (comment) => {
   );
 };
 
-const getFilmDetailsControlsMarkup = (isWatchlisted, isWatched, isFavorite) => {
+const createFilmDetailsControlsMarkup = (isWatchlisted, isWatched, isFavorite) => {
   const isWatchlistedChecked = isWatchlisted ? `checked` : ``;
   const iswatchedChecked = isWatched ? `checked` : ``;
   const isFavoriteChecked = isFavorite ? `checked` : ``;
@@ -66,7 +66,7 @@ const createFilmDetailsTemplate = (film) => {
   const genresMarkup = createGenresMarkup(genres);
   // TODO как-то странно, похоже, что все комментарии показываются разом, независимо от их количества
   const commentsMarkup = comments.map(createCommentMarkup).join(`\n`);
-  const filmDetailsControlsMarkup = getFilmDetailsControlsMarkup(isWatchlisted, isWatched, isFavorite);
+  const filmDetailsControlsMarkup = createFilmDetailsControlsMarkup(isWatchlisted, isWatched, isFavorite);
   const releaseDateFormatted = `${releaseDate.getDate()} ${MONTH_NAMES[releaseDate.getMonth()]} ${releaseDate.getFullYear()}`;
 
   return (

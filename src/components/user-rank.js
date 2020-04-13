@@ -28,7 +28,6 @@ const getUserRank = (filmsWatched = 0) => {
       targetRank = RanksTable[key].NAME;
       break;
     }
-
   }
   return targetRank;
 };

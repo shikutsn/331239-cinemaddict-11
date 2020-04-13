@@ -13,7 +13,7 @@ import {generateFilms} from "./mock/films.js";
 import {createFilmDetailsTemplate} from "./components/film-details.js";
 
 
-const FILMS_ALL_COUNT = 5;
+const FILMS_ALL_COUNT = 25;
 const FILMS_EXTRA_COUNT = 2;
 const films = generateFilms(FILMS_ALL_COUNT);
 // TODO сделать отдельные моки для топ рейтед и мост уотчд? или на основе просто films - скорее второе

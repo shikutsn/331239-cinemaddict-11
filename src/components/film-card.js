@@ -3,7 +3,7 @@ const Description = {
   TRUNC_SYMBOL: `…`,
 };
 
-const getFilmCardControlMarkup = (isWatchlisted, isWatched, isFavorite) => {
+const createFilmCardControlMarkup = (isWatchlisted, isWatched, isFavorite) => {
   const isWatchlistedChecked = isWatchlisted ? `film-card__controls-item--active` : ``;
   const iswatchedChecked = isWatched ? `film-card__controls-item--active` : ``;
   const isFavoriteChecked = isFavorite ? `film-card__controls-item--active` : ``;
@@ -18,7 +18,7 @@ const getFilmCardControlMarkup = (isWatchlisted, isWatched, isFavorite) => {
 const createFilmCardElement = (film) => {
   const {title, poster, rating, releaseDate, duration, genres, description, isWatchlisted, isWatched, isFavorite, comments} = film;
   const year = releaseDate.getFullYear();
-  const filmCardControlMarkup = getFilmCardControlMarkup(isWatchlisted, isWatched, isFavorite);
+  const filmCardControlMarkup = createFilmCardControlMarkup(isWatchlisted, isWatched, isFavorite);
   const descriptionFormatted = description.length > 140 ? `${description.slice(0, Description.MAX_LENGTH - 1)}${Description.TRUNC_SYMBOL}` : description;
 
   return (
