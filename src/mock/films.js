@@ -24,15 +24,6 @@ const GlobalMockData = {
   ],
 };
 
-const CommentsData = {
-  MAX_COUNT: 5,
-  EMOJI: [`smile`, `sleeping`, `puke`, `angry`],
-  DATE: {
-    START: `2015`,
-    DELTA: `4`,
-  }
-};
-
 const FilmsData = {
   TITLES: [`The Dance of Life`, `Sagebrush Trail`, `The Man with the Golden Arm`, `Santa Claus Conquers the Martians`, `Popeye the Sailor Meets Sindbad the Sailor`, `Virus`, `Andromeda Strain`, `Mad Max: Fury Road`, `Terminator 2: Judgement Day`, `Game of Thrones`, `The Life of Pi`, `Raid: The Redemption`, `Casino Royale`, `The Saw`],
   POSTER: {
@@ -60,6 +51,14 @@ const FilmsData = {
   DESCRIPTION: {
     MIN_LENGTH: 1,
     MAX_LENGTH: 5,
+  },
+  COMMENTS: {
+    MAX_COUNT: 5,
+    EMOJI: [`smile`, `sleeping`, `puke`, `angry`],
+    DATE: {
+      START: `2015`,
+      DELTA: `4`,
+    },
   },
   WRITERS: {
     MIN: 1,
@@ -95,9 +94,9 @@ const getRandomPersonName = () => {
 const getComment = () => {
   return {
     text: getRandomArrayItem(GlobalMockData.TEXT),
-    emoji: getRandomArrayItem(CommentsData.EMOJI),
+    emoji: getRandomArrayItem(FilmsData.COMMENTS.EMOJI),
     author: getRandomPersonName(),
-    date: getRandomDate(CommentsData.DATE.START, CommentsData.DATE.DELTA),
+    date: getRandomDate(FilmsData.COMMENTS.DATE.START, FilmsData.COMMENTS.DATE.DELTA),
   };
 };
 
@@ -163,7 +162,7 @@ const generateFilm = () => {
     isWatched: getRandomBoolean(),
     isWatchlisted: getRandomBoolean(),
     isFavorite: getRandomBoolean(),
-    comments: getComments(getRandomNumber(0, CommentsData.MAX_COUNT)),
+    comments: getComments(getRandomNumber(0, FilmsData.COMMENTS.MAX_COUNT)),
     titleOriginal: `Original: ${getRandomArrayItem(FilmsData.TITLES)}`,
     director: getRandomPersonName(),
     writers: getSetOfNames(FilmsData.WRITERS.MIN, FilmsData.WRITERS.MAX),

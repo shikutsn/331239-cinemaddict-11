@@ -17,7 +17,9 @@ const FILMS_ALL_COUNT = 17;
 const FILMS_EXTRA_COUNT = 2;
 const FILMS_PER_PAGE = 5;
 const films = generateFilms(FILMS_ALL_COUNT);
-// TODO сделать отдельные моки для топ рейтед и мост уотчд? или на основе просто films - скорее второе
+const filmsSortedByCommentsCount = films.slice().sort((a, b) => b.comments.length - a.comments.length);
+const filmsSortedByRating = films.slice().sort((a, b) => b.rating - a.rating);
+// TODO возможно, чтобы не хранить три копии массива с фильмами (а если их 150к?) следует хранить отсортированные индексы изначального массива
 
 const renderTemplate = (container, template, place = `beforeend`) => {
   container.insertAdjacentHTML(place, template);
@@ -58,19 +60,15 @@ loadMoreButtonElement.addEventListener(`click`, () => {
 
 
 renderTemplate(siteFilmsContainerElement, createFilmsTopRatedElement());
-// Так как 3 разных блоках (но два из них с одинаковыми именами) с фильмами карточки фильмами кладутся в одинаково названные контейнеры, приходится таким способом искать последний из добавленных
+// Так как в три разных блока (два из них с одинаковыми именами) с фильмами карточки фильмов кладутся в одинаково названные контейнеры, приходится таким способом искать последний из добавленных контейнеров
 const siteFilmsTopRatedContainerElement = Array.from(siteFilmsContainerElement.querySelectorAll(`.films-list__container`)).pop();
 
-for (let i = 0; i < FILMS_EXTRA_COUNT; i++) {
-  renderTemplate(siteFilmsTopRatedContainerElement, createFilmCardElement(films[i]));
-}
+filmsSortedByRating.slice(0, FILMS_EXTRA_COUNT).forEach((film) => renderTemplate(siteFilmsTopRatedContainerElement, createFilmCardElement(film)));
 
 renderTemplate(siteFilmsContainerElement, createFilmsMostCommentedElement());
 const siteFilmsMostCommentedContainerElement = Array.from(siteFilmsContainerElement.querySelectorAll(`.films-list__container`)).pop();
 
-for (let i = 0; i < FILMS_EXTRA_COUNT; i++) {
-  renderTemplate(siteFilmsMostCommentedContainerElement, createFilmCardElement(films[i]));
-}
+filmsSortedByCommentsCount.slice(0, FILMS_EXTRA_COUNT).forEach((film) => renderTemplate(siteFilmsMostCommentedContainerElement, createFilmCardElement(film)));
 
 const siteFilmsTotalElement = document.querySelector(`.footer__statistics`);
 const filmsTotal = getFilmsTotalAmount();
