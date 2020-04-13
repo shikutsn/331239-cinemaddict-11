@@ -21,7 +21,6 @@ const createGenresMarkup = (genres) => {
   );
 };
 
-// TODO унифицировать имена функций, а то тут то createMarkup, to getMarkup
 const createCommentMarkup = (comment) => {
   const {text, emoji, author, date} = comment;
   const commentDateFormatted = `${date.getFullYear()}/${date.getMonth()}/${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;

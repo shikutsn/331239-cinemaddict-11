@@ -61,4 +61,4 @@ const siteFilmsTotalElement = document.querySelector(`.footer__statistics`);
 const filmsTotal = getFilmsTotalAmount();
 renderTemplate(siteFilmsTotalElement, createFilmsTotalTemplate(filmsTotal));
 
-renderTemplate(document.querySelector(`body`), createFilmDetailsTemplate(films[0]));
+// renderTemplate(document.querySelector(`body`), createFilmDetailsTemplate(films[0]));

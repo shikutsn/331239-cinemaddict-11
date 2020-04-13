@@ -40,8 +40,8 @@ const FilmsData = {
     FILE_NAMES: [`sagebrush-trail.jpg`, `santa-claus-conquers-the-martians.jpg`, `the-dance-of-life.jpg`, `the-great-flamarion.jpg`, `the-man-with-the-golden-arm.jpg`, `made-for-each-other.png`, `popeye-meets-sinbad.png`],
   },
   RATING: {
-    MIN: 30,
-    MAX: 90,
+    MIN: 3,
+    MAX: 9,
     PRECISION: 1, // число точек после запятой
   },
   RELEASE_DATE: {
@@ -109,8 +109,9 @@ const getComments = (count) => {
 
 const getRating = (min, max, precision) => {
   // precision - число точек после запятой
-  let targetRating = getRandomNumber(min, max);
-  targetRating /= precision * 10;
+  const multiplier = Math.pow(10, precision);
+  let targetRating = getRandomNumber(min * multiplier, max * multiplier);
+  targetRating /= multiplier;
   return targetRating.toFixed(precision);
 };
 
