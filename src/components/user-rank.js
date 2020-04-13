@@ -34,11 +34,11 @@ const getUserRank = (filmsWatched = 0) => {
 
 export const createUserRankTemplate = (filmsWatched) => {
   const userRank = getUserRank(filmsWatched);
-
   return (
-    `<section class="header__profile profile">
+    (filmsWatched === 0) ? `` :
+      `<section class="header__profile profile">
       <p class="profile__rating">${userRank}</p>
       <img class="profile__avatar" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
-    </section>`
+      </section>`
   );
 };
