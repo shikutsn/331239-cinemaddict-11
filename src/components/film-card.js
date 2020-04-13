@@ -17,7 +17,9 @@ const createFilmCardControlMarkup = (isWatchlisted, isWatched, isFavorite) => {
 
 const createFilmCardElement = (film) => {
   const {title, poster, rating, releaseDate, duration, genres, description, isWatchlisted, isWatched, isFavorite, comments} = film;
+
   const year = releaseDate.getFullYear();
+  const durationFormatted = `${Math.floor(duration / 60)}h ${duration % 60}m`;
   const filmCardControlMarkup = createFilmCardControlMarkup(isWatchlisted, isWatched, isFavorite);
   const descriptionFormatted = description.length > 140 ? `${description.slice(0, Description.MAX_LENGTH - 1)}${Description.TRUNC_SYMBOL}` : description;
 
@@ -27,7 +29,7 @@ const createFilmCardElement = (film) => {
       <p class="film-card__rating">${rating}</p>
       <p class="film-card__info">
         <span class="film-card__year">${year}</span>
-        <span class="film-card__duration">${duration}</span>
+        <span class="film-card__duration">${durationFormatted}</span>
         <span class="film-card__genre">${genres[0]}</span>
       </p>
       <img src="${poster}" alt="" class="film-card__poster">

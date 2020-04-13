@@ -63,6 +63,7 @@ const createFilmDetailsTemplate = (film) => {
   const {title, poster, rating, releaseDate, duration, genres, description, isWatchlisted, isWatched, isFavorite, comments, titleOriginal, director, writers, actors, country, age} = film;
 
   const genresMarkup = createGenresMarkup(genres);
+  const durationFormatted = `${Math.floor(duration / 60)}h ${duration % 60}m`;
   // TODO как-то странно, похоже, что все комментарии показываются разом, независимо от их количества
   const commentsMarkup = comments.map(createCommentMarkup).join(`\n`);
   const filmDetailsControlsMarkup = createFilmDetailsControlsMarkup(isWatchlisted, isWatched, isFavorite);
@@ -113,7 +114,7 @@ const createFilmDetailsTemplate = (film) => {
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Runtime</td>
-                  <td class="film-details__cell">${duration}</td>
+                  <td class="film-details__cell">${durationFormatted}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Country</td>

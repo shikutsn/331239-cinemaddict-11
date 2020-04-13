@@ -114,11 +114,6 @@ const getRating = (min, max, precision) => {
   return targetRating.toFixed(precision);
 };
 
-const getDuration = (min, max) => {
-  const targetDuration = getRandomNumber(min, max);
-  return `${Math.floor(targetDuration / 60)}h ${targetDuration % 60}m`;
-};
-
 const getDescription = (min, max) => {
   const count = getRandomNumber(min, max);
   return new Array(count)
@@ -156,7 +151,7 @@ const generateFilm = () => {
     poster: `${FilmsData.POSTER.PATH_BASE}${getRandomArrayItem(FilmsData.POSTER.FILE_NAMES)}`,
     rating: getRating(FilmsData.RATING.MIN, FilmsData.RATING.MAX, FilmsData.RATING.PRECISION),
     releaseDate: getRandomDate(FilmsData.RELEASE_DATE.BASE, FilmsData.RELEASE_DATE.DELTA),
-    duration: getDuration(FilmsData.DURATION.MIN, FilmsData.DURATION.MAX),
+    duration: getRandomNumber(FilmsData.DURATION.MIN, FilmsData.DURATION.MAX),
     genres: getGenres(FilmsData.GENRES.MIN, FilmsData.GENRES.MAX, FilmsData.GENRES.ITEMS),
     description: getDescription(FilmsData.DESCRIPTION.MIN_LENGTH, FilmsData.DESCRIPTION.MAX_LENGTH),
     isWatched: getRandomBoolean(),

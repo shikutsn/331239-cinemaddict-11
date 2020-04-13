@@ -5,7 +5,6 @@ const FILMS_IN_DATABASE = 150000;
 
 const getFilmsWatchedAmount = () => {
   return getRandomNumber(0, FILMS_WATCHED_MAX);
-  // return 0;
 };
 
 const getFilmsTotalAmount = () => {
