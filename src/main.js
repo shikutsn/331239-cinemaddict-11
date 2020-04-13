@@ -11,6 +11,7 @@ import {getFilmsWatchedAmount} from "./mock/global.js";
 import {getFilmsTotalAmount} from "./mock/global.js";
 import {generateFilms} from "./mock/films.js";
 import {createFilmDetailsTemplate} from "./components/film-details.js";
+import {createFiltersTemplate} from "./components/filters.js";
 
 
 const FILMS_ALL_COUNT = 17;
@@ -31,6 +32,10 @@ renderTemplate(siteHeaderElement, createUserRankTemplate(userFilmsWatched));
 
 const siteMainElement = document.querySelector(`.main`);
 renderTemplate(siteMainElement, createMainNavigationTemplate());
+
+const siteNavigationElement = siteMainElement.querySelector(`.main-navigation`);
+renderTemplate(siteNavigationElement, createFiltersTemplate(), `afterbegin`);
+
 renderTemplate(siteMainElement, createFilmsBoardTemplate());
 
 const siteFilmsContainerElement = siteMainElement.querySelector(`.films`);
