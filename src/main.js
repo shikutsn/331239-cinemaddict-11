@@ -13,8 +13,9 @@ import {generateFilms} from "./mock/films.js";
 import {createFilmDetailsTemplate} from "./components/film-details.js";
 
 
-const FILMS_ALL_COUNT = 25;
+const FILMS_ALL_COUNT = 17;
 const FILMS_EXTRA_COUNT = 2;
+const FILMS_PER_PAGE = 5;
 const films = generateFilms(FILMS_ALL_COUNT);
 // TODO сделать отдельные моки для топ рейтед и мост уотчд? или на основе просто films - скорее второе
 
@@ -35,12 +36,26 @@ renderTemplate(siteFilmsContainerElement, createFilmsAllMoviesElement());
 
 const siteFilmsAllMoviesContainerElement = siteFilmsContainerElement.querySelector(`.films-list__container`);
 
-for (let i = 0; i < films.length; i++) {
-  renderTemplate(siteFilmsAllMoviesContainerElement, createFilmCardElement(films[i]));
-}
+let filmsRenderedCount = FILMS_PER_PAGE;
+
+films.slice(0, filmsRenderedCount).forEach((film) => renderTemplate(siteFilmsAllMoviesContainerElement, createFilmCardElement(film)));
 
 const siteFilmsAllMoviesElement = siteFilmsContainerElement.querySelector(`.films-list`);
+
 renderTemplate(siteFilmsAllMoviesElement, createShowMoreButtonTemplate());
+
+const loadMoreButtonElement = siteFilmsContainerElement.querySelector(`.films-list__show-more`);
+
+loadMoreButtonElement.addEventListener(`click`, () => {
+  films.slice(filmsRenderedCount, filmsRenderedCount + FILMS_PER_PAGE).forEach((film) => renderTemplate(siteFilmsAllMoviesContainerElement, createFilmCardElement(film)));
+
+  filmsRenderedCount += FILMS_PER_PAGE;
+
+  if (filmsRenderedCount >= films.length) {
+    loadMoreButtonElement.remove();
+  }
+});
+
 
 renderTemplate(siteFilmsContainerElement, createFilmsTopRatedElement());
 // Так как 3 разных блоках (но два из них с одинаковыми именами) с фильмами карточки фильмами кладутся в одинаково названные контейнеры, приходится таким способом искать последний из добавленных
