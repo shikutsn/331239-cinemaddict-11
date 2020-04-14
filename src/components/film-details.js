@@ -61,6 +61,21 @@ const createFilmDetailsControlsMarkup = (isWatchlisted, isWatched, isFavorite) =
   );
 };
 
+const createCommentsEmojiMarkup = () => {
+  let targetEmojiMarkup = ``;
+
+  for (const emoji in EmojiMap) {
+    if (EmojiMap.hasOwnProperty(emoji)) {
+      targetEmojiMarkup +=
+      `<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emoji}" value="${emoji}">
+      <label class="film-details__emoji-label" for="emoji-${emoji}">
+        <img src="${EmojiMap[emoji]}" width="30" height="30" alt="emoji">
+      </label>`;
+    }
+  }
+  return targetEmojiMarkup;
+};
+
 const createFilmDetailsTemplate = (film) => {
   const {title, poster, rating, releaseDate, duration, genres, description, isWatchlisted, isWatched, isFavorite, comments, titleOriginal, director, writers, actors, country, age} = film;
 
@@ -70,7 +85,7 @@ const createFilmDetailsTemplate = (film) => {
   const commentsMarkup = comments.map(createCommentMarkup).join(`\n`);
   const filmDetailsControlsMarkup = createFilmDetailsControlsMarkup(isWatchlisted, isWatched, isFavorite);
   const releaseDateFormatted = `${releaseDate.getDate()} ${MONTH_NAMES[releaseDate.getMonth()]} ${releaseDate.getFullYear()}`;
-  // TODO разметку эмоджи генерировать, пробегаясь по массиву с ними (см createRepeatingDaysMarkup в учебном)
+  const emojiMarkup = createCommentsEmojiMarkup();
 
   return (
     `<section class="film-details">
@@ -155,25 +170,7 @@ const createFilmDetailsTemplate = (film) => {
               </label>
 
               <div class="film-details__emoji-list">
-                <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="smile">
-                <label class="film-details__emoji-label" for="emoji-smile">
-                  <img src="./images/emoji/smile.png" width="30" height="30" alt="emoji">
-                </label>
-
-                <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-sleeping" value="sleeping">
-                <label class="film-details__emoji-label" for="emoji-sleeping">
-                  <img src="./images/emoji/sleeping.png" width="30" height="30" alt="emoji">
-                </label>
-
-                <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-puke" value="puke">
-                <label class="film-details__emoji-label" for="emoji-puke">
-                  <img src="./images/emoji/puke.png" width="30" height="30" alt="emoji">
-                </label>
-
-                <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-angry" value="angry">
-                <label class="film-details__emoji-label" for="emoji-angry">
-                  <img src="./images/emoji/angry.png" width="30" height="30" alt="emoji">
-                </label>
+                ${emojiMarkup}
               </div>
             </div>
           </section>
