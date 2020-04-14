@@ -4,7 +4,6 @@ import {createFilmsBoardTemplate} from "./components/films-board.js";
 import {createFilmCardElement} from "./components/film-card.js";
 import {createShowMoreButtonTemplate} from "./components/button-show-more.js";
 import {createFilmsTotalTemplate} from "./components/films-total.js";
-import {getFilmsWatchedAmount} from "./mock/global.js";
 import {getFilmsTotalAmount} from "./mock/global.js";
 import {generateFilms} from "./mock/films.js";
 import {createFilmDetailsTemplate} from "./components/film-details.js";
@@ -27,7 +26,7 @@ const renderTemplate = (container, template, place = `beforeend`) => {
   container.insertAdjacentHTML(place, template);
 };
 
-const userFilmsWatched = getFilmsWatchedAmount();
+const userFilmsWatched = films.reduce((total, it) => it.isWatchlisted ? ++total : total, 0);
 const siteHeaderElement = document.querySelector(`.header`);
 renderTemplate(siteHeaderElement, createUserRankTemplate(userFilmsWatched));
 

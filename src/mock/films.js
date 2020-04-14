@@ -75,8 +75,8 @@ const FilmsData = {
 const getRandomDate = (startYear, deltaYear) => {
   // возвращает случайную дату в интервале (startYear - deltaYear) - (startYear + deltaYear)
   const targetDate = new Date(String(startYear));
-  const sign = Math.random() > 0.5 ? 1 : -1;
-  const diffValue = sign * getRandomNumber(0, deltaYear * 365 * 24 * 60 * 60 * 1000);
+  const deltaTimestamp = deltaYear * 365 * 24 * 60 * 60 * 1000; // годы в мс
+  const diffValue = getRandomNumber(-deltaTimestamp, deltaTimestamp);
 
   targetDate.setTime(targetDate.getTime() + diffValue);
 

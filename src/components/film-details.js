@@ -25,6 +25,7 @@ const createGenresMarkup = (genres) => {
 const createCommentMarkup = (comment) => {
   const {text, emoji, author, date} = comment;
   const commentDateFormatted = `${date.getFullYear()}/${date.getMonth()}/${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
+  // TODO возможно (даже скорее всего) даты и время тут не добиваются нулями слева (то есть время типа 20:1, дата 2015/1/1)
 
   return (
     `<li class="film-details__comment">
@@ -69,6 +70,7 @@ const createFilmDetailsTemplate = (film) => {
   const commentsMarkup = comments.map(createCommentMarkup).join(`\n`);
   const filmDetailsControlsMarkup = createFilmDetailsControlsMarkup(isWatchlisted, isWatched, isFavorite);
   const releaseDateFormatted = `${releaseDate.getDate()} ${MONTH_NAMES[releaseDate.getMonth()]} ${releaseDate.getFullYear()}`;
+  // TODO разметку эмоджи генерировать, пробегаясь по массиву с ними (см createRepeatingDaysMarkup в учебном)
 
   return (
     `<section class="film-details">
