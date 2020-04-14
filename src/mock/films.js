@@ -136,13 +136,22 @@ const getGenres = (min, max, genres) => {
 };
 
 const getSetOfNames = (min, max) => {
+  // возвращает набор уникальных имен и фамилий
+  // не будет работать если попросить ноль элементов или больше чем число имен * число фамилий (то есть когда максимальное число возможных комбинаций имени и фамилии меньше чем запрошенное)
   const count = getRandomNumber(min, max + 1);
-  return new Array(count)
+  let targetSetOfNames = new Array(count - 1) // на один меньше
     .fill(``)
     .map(() => {
       return getRandomPersonName();
-    })
-    .join(`, `);
+    });
+
+  // а последний добиваем в цикле, заодно убирая повторяющиеся
+  while (targetSetOfNames.length < count) {
+    targetSetOfNames.push(getRandomPersonName());
+    targetSetOfNames = removeDuplicates(targetSetOfNames);
+  }
+
+  return targetSetOfNames.join(`, `);
 };
 
 const generateFilm = () => {
