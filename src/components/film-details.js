@@ -14,6 +14,7 @@ const createGenreMarkup = (genre) => {
 const createGenresMarkup = (genres) => {
   const genresList = genres.map((it) => createGenreMarkup(it)).join(`\n`);
   const termValue = genres.length === 1 ? `Genre` : `Genres`;
+
   return (
     `<td class="film-details__term">${termValue}</td>
     <td class="film-details__cell">

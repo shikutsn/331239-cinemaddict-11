@@ -173,4 +173,4 @@ const generateFilms = (count) => {
     .map(generateFilm);
 };
 
-export {generateFilm, generateFilms};
+export {generateFilms};
