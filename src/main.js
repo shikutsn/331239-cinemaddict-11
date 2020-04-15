@@ -10,7 +10,6 @@ import SortingButtonsComponent from "./components/sorting-buttons.js";
 import UserRankComponent from "./components/user-rank.js";
 import {generateFilms} from "./mock/films.js";
 import {generateFilters} from "./mock/filters.js";
-import {getFilmsTotalAmount} from "./mock/global.js";
 import {render, RenderPosition} from "./utils.js";
 
 
@@ -85,6 +84,7 @@ const renderFilmCardsExtraContainer = (extraFilmsContainer, extraFilms) => {
 
 
 const films = generateFilms(FILMS_ALL_COUNT);
+const filmsTotal = films.length;
 const filmsSortedByComments = films.slice().sort((a, b) => b.comments.length - a.comments.length);
 const filmsSortedByRating = films.slice().sort((a, b) => b.rating - a.rating);
 const userFilmsWatched = films.reduce((total, it) => it.isWatchlisted ? ++total : total, 0);
@@ -92,6 +92,7 @@ const filters = generateFilters();
 
 const siteHeaderElement = document.querySelector(`.header`);
 render(siteHeaderElement, new UserRankComponent(userFilmsWatched).getElement());
+
 
 const siteMainElement = document.querySelector(`.main`);
 render(siteMainElement, new MainNavigationComponent().getElement());
@@ -102,24 +103,29 @@ render(siteNavigationElement, new FiltersComponent(filters, films).getElement(),
 render(siteMainElement, new SortingButtonsComponent().getElement());
 render(siteMainElement, new FilmsBoardComponent().getElement());
 
+
 const siteFilmsContainerElement = siteMainElement.querySelector(`.films`);
-render(siteFilmsContainerElement, new FilmCardsContainerComponent(`All movies. Upcoming`, true, false).getElement());
+const noMovies = !films.length;
+if (noMovies) {
+  render(siteFilmsContainerElement, new FilmCardsContainerComponent(`There are no movies in our database`, false, false).getElement());
+} else {
+  render(siteFilmsContainerElement, new FilmCardsContainerComponent(`All movies. Upcoming`, true, false).getElement());
 
-const siteFilmsAllMoviesContainerElement = siteFilmsContainerElement.querySelector(`.films-list__container`);
-renderFilmCardsAllContainer(siteFilmsAllMoviesContainerElement, films);
+  const siteFilmsAllMoviesContainerElement = siteFilmsContainerElement.querySelector(`.films-list__container`);
+  renderFilmCardsAllContainer(siteFilmsAllMoviesContainerElement, films);
 
-const filmsTopRatedContainerComponent = new FilmCardsContainerComponent(`Top rated`, false, true);
-const siteFilmsTopRatedContainerElement = filmsTopRatedContainerComponent.getElement().querySelector(`.films-list__container`);
-render(siteFilmsContainerElement, filmsTopRatedContainerComponent.getElement());
+  const filmsTopRatedContainerComponent = new FilmCardsContainerComponent(`Top rated`, false, true);
+  const siteFilmsTopRatedContainerElement = filmsTopRatedContainerComponent.getElement().querySelector(`.films-list__container`);
+  render(siteFilmsContainerElement, filmsTopRatedContainerComponent.getElement());
 
-const filmsMostCommentedContainerComponent = new FilmCardsContainerComponent(`Most commented`, false, true);
-const siteFilmsMostCommentedContainerElement = filmsMostCommentedContainerComponent.getElement().querySelector(`.films-list__container`);
-render(siteFilmsContainerElement, filmsMostCommentedContainerComponent.getElement());
+  const filmsMostCommentedContainerComponent = new FilmCardsContainerComponent(`Most commented`, false, true);
+  const siteFilmsMostCommentedContainerElement = filmsMostCommentedContainerComponent.getElement().querySelector(`.films-list__container`);
+  render(siteFilmsContainerElement, filmsMostCommentedContainerComponent.getElement());
 
 
-renderFilmCardsExtraContainer(siteFilmsTopRatedContainerElement, filmsSortedByRating);
-renderFilmCardsExtraContainer(siteFilmsMostCommentedContainerElement, filmsSortedByComments);
+  renderFilmCardsExtraContainer(siteFilmsTopRatedContainerElement, filmsSortedByRating);
+  renderFilmCardsExtraContainer(siteFilmsMostCommentedContainerElement, filmsSortedByComments);
+}
 
 const siteFilmsTotalElement = document.querySelector(`.footer__statistics`);
-const filmsTotal = getFilmsTotalAmount();
 render(siteFilmsTotalElement, new FilmsTotalComponent(filmsTotal).getElement());
