@@ -23,7 +23,7 @@ const createElement = (template) => {
   return newElement.firstChild;
 };
 
-const render = (container, element, place) => {
+const render = (container, element, place = RenderPosition.BEFOREEND) => {
   switch (place) {
     case RenderPosition.AFTERBEGIN:
       container.prepend(element);
@@ -34,4 +34,4 @@ const render = (container, element, place) => {
   }
 };
 
-export {getRandomNumber, getRandomArrayItem, removeDuplicates, createElement, render};
+export {getRandomNumber, getRandomArrayItem, removeDuplicates, createElement, render, RenderPosition};
