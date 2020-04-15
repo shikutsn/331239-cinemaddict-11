@@ -14,7 +14,6 @@ const createFilmCardsContainerTemplate = (caption, isHidden, isExtra) => {
 };
 
 export default class FilmCardsContainer {
-  // TODO возможно, параметры через объект?
   constructor(caption, isHidden, isExtra) {
     this._caption = caption;
     this._isHidden = isHidden;

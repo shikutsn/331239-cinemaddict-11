@@ -13,6 +13,4 @@ const MONTH_NAMES = [
   `December`,
 ];
 
-const ESC_KEYCODE = 27;
-
-export {MONTH_NAMES, ESC_KEYCODE};
+export {MONTH_NAMES};
