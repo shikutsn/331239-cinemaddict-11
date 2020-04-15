@@ -97,13 +97,16 @@ const siteFilmsContainerElement = siteMainElement.querySelector(`.films`);
 render(siteFilmsContainerElement, new FilmCardsContainerComponent(`All movies. Upcoming`, true, false).getElement());
 
 const siteFilmsAllMoviesContainerElement = siteFilmsContainerElement.querySelector(`.films-list__container`);
-
 renderFilmCardsAllContainer(siteFilmsAllMoviesContainerElement, films);
 
+const filmsTopRatedContainerComponent = new FilmCardsContainerComponent(`Top rated`, false, true);
+const siteFilmsTopRatedContainerElement = filmsTopRatedContainerComponent.getElement().querySelector(`.films-list__container`);
+render(siteFilmsContainerElement, filmsTopRatedContainerComponent.getElement());
 
-render(siteFilmsContainerElement, new FilmCardsContainerComponent(`Top rated`, false, true).getElement());
-render(siteFilmsContainerElement, new FilmCardsContainerComponent(`Most commented`, false, true).getElement());
-const [, siteFilmsTopRatedContainerElement, siteFilmsMostCommentedContainerElement] = siteFilmsContainerElement.querySelectorAll(`.films-list__container`);
+const filmsMostCommentedContainerComponent = new FilmCardsContainerComponent(`Most commented`, false, true);
+const siteFilmsMostCommentedContainerElement = filmsMostCommentedContainerComponent.getElement().querySelector(`.films-list__container`);
+render(siteFilmsContainerElement, filmsMostCommentedContainerComponent.getElement());
+
 
 renderFilmCardsExtraContainer(siteFilmsTopRatedContainerElement, filmsSortedByRating);
 renderFilmCardsExtraContainer(siteFilmsMostCommentedContainerElement, filmsSortedByComments);
