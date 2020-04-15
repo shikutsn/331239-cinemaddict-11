@@ -1,3 +1,5 @@
+import {createElement} from "../utils.js";
+
 const createFilterMarkup = (filter, films) => {
   const {caption, hasCounter, link, isActive, action} = filter;
   const counterMarkup = hasCounter ? ` <span class="main-navigation__item-count">${action(films)}</span>` : ``;
@@ -26,4 +28,27 @@ const createFiltersTemplate = (filters, films) => {
   );
 };
 
-export {createFiltersTemplate};
+export default class Filters {
+  constructor(filters, films) {
+    this._filters = filters;
+    this._films = films;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFiltersTemplate(this._filters, this._films);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

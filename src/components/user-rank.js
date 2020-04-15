@@ -1,3 +1,5 @@
+import {createElement} from "../utils.js";
+
 const RanksTable = {
   none: {
     NAME: ``,
@@ -32,8 +34,9 @@ const getUserRank = (filmsWatched = 0) => {
   return targetRank;
 };
 
-export const createUserRankTemplate = (filmsWatched) => {
+const createUserRankTemplate = (filmsWatched) => {
   const userRank = getUserRank(filmsWatched);
+
   return (
     (filmsWatched === 0) ? `` :
       `<section class="header__profile profile">
@@ -42,3 +45,27 @@ export const createUserRankTemplate = (filmsWatched) => {
       </section>`
   );
 };
+
+export default class UserRank {
+  constructor(filmsWatched) {
+    this._filmsWatched = filmsWatched;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createUserRankTemplate(this._filmsWatched);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

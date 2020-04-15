@@ -1,4 +1,6 @@
-export const createFilmCardsContainer = (caption, isHidden, isExtra) => {
+import {createElement} from "../utils.js";
+
+const createFilmCardsContainer = (caption, isHidden, isExtra) => {
   const captionMarkup = `<h2 class="films-list__title${isHidden ? ` visually-hidden` : ``}">${caption}</h2>`;
   const classMarkup = `class="${isExtra ? `films-list--extra` : `films-list`}"`;
 
@@ -10,3 +12,30 @@ export const createFilmCardsContainer = (caption, isHidden, isExtra) => {
     </section>`
   );
 };
+
+export default class FilmCardsContainer {
+  // TODO возможно, параметры через объект?
+  constructor(caption, isHidden, isExtra) {
+    this._caption = caption;
+    this._isHidden = isHidden;
+    this._isExtra = isExtra;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmCardsContainer(this._caption, this._isHidden, this._isExtra);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
