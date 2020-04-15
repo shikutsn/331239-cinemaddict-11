@@ -1,3 +1,5 @@
+import {createElement} from "../utils.js";
+
 const Description = {
   MAX_LENGTH: 140,
   TRUNC_SYMBOL: `…`,
