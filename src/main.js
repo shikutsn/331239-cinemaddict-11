@@ -22,11 +22,20 @@ const renderFilmCard = (filmsContainer, film) => {
   const onFilmCardElementClick = () => {
     siteBodyElement.appendChild(filmDetailsComponent.getElement());
     filmDetailsComponentCloseButton.addEventListener(`click`, onFilmDetailsCloseButtonClick);
+    document.addEventListener(`keydown`, onEscKeyDown);
   };
 
   const onFilmDetailsCloseButtonClick = () => {
     siteBodyElement.removeChild(filmDetailsComponent.getElement());
-    filmDetailsComponentCloseButton.removeEventListener(`click`, onFilmDetailsCloseButtonClick);
+    document.removeEventListener(`keydown`, onEscKeyDown);
+  };
+
+  const onEscKeyDown = (evt) => {
+    const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
+
+    if (isEscKey) {
+      onFilmDetailsCloseButtonClick();
+    }
   };
 
   const filmCardComponent = new FilmCardComponent(film);
