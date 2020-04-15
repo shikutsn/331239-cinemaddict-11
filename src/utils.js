@@ -11,4 +11,11 @@ const removeDuplicates = (array) => {
   return array.filter((item, position) => array.indexOf(item) === position);
 };
 
-export {getRandomNumber, getRandomArrayItem, removeDuplicates};
+const createElement = (template) => {
+  const newElement = document.createElement(`div`);
+  newElement.innerHTML = template;
+
+  return newElement.firstChild;
+};
+
+export {getRandomNumber, getRandomArrayItem, removeDuplicates, createElement};
