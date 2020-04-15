@@ -12,6 +12,7 @@ import {generateFilters} from "./mock/filters.js";
 import {createSortingButtonsTemplate} from "./components/sorting-buttons.js";
 import {ESC_KEYCODE} from "./const.js";
 import {createFilmCardsContainer} from "./components/film-cards-container.js";
+import {render, RenderPosition} from "./utils.js";
 
 
 const FILMS_ALL_COUNT = 17;
@@ -22,9 +23,6 @@ const filmsSortedByComments = films.slice().sort((a, b) => b.comments.length - a
 const filmsSortedByRating = films.slice().sort((a, b) => b.rating - a.rating);
 const filters = generateFilters();
 
-const renderTemplate = (container, template, place = `beforeend`) => {
-  container.insertAdjacentHTML(place, template);
-};
 
 const userFilmsWatched = films.reduce((total, it) => it.isWatchlisted ? ++total : total, 0);
 const siteHeaderElement = document.querySelector(`.header`);
