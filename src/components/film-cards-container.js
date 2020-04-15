@@ -1,6 +1,6 @@
 import {createElement} from "../utils.js";
 
-const createFilmCardsContainer = (caption, isHidden, isExtra) => {
+const createFilmCardsContainerTemplate = (caption, isHidden, isExtra) => {
   const captionMarkup = `<h2 class="films-list__title${isHidden ? ` visually-hidden` : ``}">${caption}</h2>`;
   const classMarkup = `class="${isExtra ? `films-list--extra` : `films-list`}"`;
 
@@ -24,7 +24,7 @@ export default class FilmCardsContainer {
   }
 
   getTemplate() {
-    return createFilmCardsContainer(this._caption, this._isHidden, this._isExtra);
+    return createFilmCardsContainerTemplate(this._caption, this._isHidden, this._isExtra);
   }
 
   getElement() {

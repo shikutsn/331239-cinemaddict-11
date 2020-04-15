@@ -1,17 +1,17 @@
-import {createUserRankTemplate} from "./components/user-rank.js";
-import {createMainNavigationTemplate} from "./components/main-navigation.js";
-import {createFilmsBoardTemplate} from "./components/films-board.js";
-import {createFilmCardElement} from "./components/film-card.js";
-import {createShowMoreButtonTemplate} from "./components/button-show-more.js";
-import {createFilmsTotalTemplate} from "./components/films-total.js";
-import {getFilmsTotalAmount} from "./mock/global.js";
+import FilmCard from "./components/film-card.js";
+import FilmCardsContainer from "./components/film-cards-container.js";
+import FilmDetails from "./components/film-details.js";
+import FilmsBoard from "./components/films-board.js";
+import FilmsTotal from "./components/films-total.js";
+import Filters from "./components/filters.js";
+import MainNavigation from "./components/main-navigation.js";
+import ShowMoreButton from "./components/show-more-button.js";
+import SortingButtons from "./components/sorting-buttons.js";
+import UserRank from "./components/user-rank.js";
 import {generateFilms} from "./mock/films.js";
-import {createFilmDetailsTemplate} from "./components/film-details.js";
-import {createFiltersTemplate} from "./components/filters.js";
 import {generateFilters} from "./mock/filters.js";
-import {createSortingButtonsTemplate} from "./components/sorting-buttons.js";
+import {getFilmsTotalAmount} from "./mock/global.js";
 import {ESC_KEYCODE} from "./const.js";
-import {createFilmCardsContainer} from "./components/film-cards-container.js";
 import {render, RenderPosition} from "./utils.js";
 
 
