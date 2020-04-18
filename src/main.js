@@ -19,13 +19,13 @@ const FILMS_PER_PAGE = 5;
 
 const renderFilmCard = (filmsContainer, film) => {
   const onFilmCardElementClick = () => {
-    appendChild(siteBodyElement, filmDetailsComponent.getElement());
+    appendChild(siteBodyElement, filmDetailsComponent);
     filmDetailsComponentCloseButton.addEventListener(`click`, onFilmDetailsCloseButtonClick);
     document.addEventListener(`keydown`, onEscKeyDown);
   };
 
   const onFilmDetailsCloseButtonClick = () => {
-    removeChild(siteBodyElement, filmDetailsComponent.getElement());
+    removeChild(siteBodyElement, filmDetailsComponent);
     document.removeEventListener(`keydown`, onEscKeyDown);
   };
 
@@ -72,8 +72,7 @@ const renderFilmCardsAllContainer = (filmsContainer, films) => {
     filmsRenderedCount += FILMS_PER_PAGE;
 
     if (filmsRenderedCount >= films.length) {
-      remove(showMoreButtonComponent.getElement());
-      showMoreButtonComponent.removeElement();
+      remove(showMoreButtonComponent);
     }
   });
 };
