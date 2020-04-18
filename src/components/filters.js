@@ -1,4 +1,4 @@
-import {createElement} from "../utils.js";
+import AbstractComponent from "./abstract-component.js";
 
 const createFilterMarkup = (filter, films) => {
   const {caption, hasCounter, link, isActive, action} = filter;
@@ -28,27 +28,15 @@ const createFiltersTemplate = (filters, films) => {
   );
 };
 
-export default class Filters {
+export default class Filters extends AbstractComponent {
   constructor(filters, films) {
+    super();
+
     this._filters = filters;
     this._films = films;
-
-    this._element = null;
   }
 
   getTemplate() {
     return createFiltersTemplate(this._filters, this._films);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

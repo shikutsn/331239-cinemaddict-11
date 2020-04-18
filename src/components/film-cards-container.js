@@ -1,4 +1,4 @@
-import {createElement} from "../utils.js";
+import AbstractComponent from "./abstract-component.js";
 
 const createFilmCardsContainerTemplate = (caption, isHidden, isExtra) => {
   const captionMarkup = `<h2 class="films-list__title${isHidden ? ` visually-hidden` : ``}">${caption}</h2>`;
@@ -13,28 +13,16 @@ const createFilmCardsContainerTemplate = (caption, isHidden, isExtra) => {
   );
 };
 
-export default class FilmCardsContainer {
+export default class FilmCardsContainer extends AbstractComponent {
   constructor(caption, isHidden, isExtra) {
+    super();
+
     this._caption = caption;
     this._isHidden = isHidden;
     this._isExtra = isExtra;
-
-    this._element = null;
   }
 
   getTemplate() {
     return createFilmCardsContainerTemplate(this._caption, this._isHidden, this._isExtra);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

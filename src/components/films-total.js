@@ -1,4 +1,4 @@
-import {createElement} from "../utils.js";
+import AbstractComponent from "./abstract-component.js";
 
 const createFilmsTotalTemplate = (filmsTotal) => {
   // TODO возможно, следует сделать так, чтобы знаки тысяч (и миллионов? или вообще универсально каждые три разряда) отделялись пробелом от знаков миллионов (то есть 233 223 333)
@@ -7,26 +7,14 @@ const createFilmsTotalTemplate = (filmsTotal) => {
   );
 };
 
-export default class FilmsTotal {
+export default class FilmsTotal extends AbstractComponent {
   constructor(filmsTotal) {
-    this._filmsTotal = filmsTotal;
+    super();
 
-    this._element = null;
+    this._filmsTotal = filmsTotal;
   }
 
   getTemplate() {
     return createFilmsTotalTemplate(this._filmsTotal);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
