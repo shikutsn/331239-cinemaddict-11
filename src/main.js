@@ -10,7 +10,7 @@ import SortingButtonsComponent from "./components/sorting-buttons.js";
 import UserRankComponent from "./components/user-rank.js";
 import {generateFilms} from "./mock/films.js";
 import {generateFilters} from "./mock/filters.js";
-import {render, RenderPosition} from "./utils/render.js";
+import {render, RenderPosition, appendChild, removeChild, remove} from "./utils/render.js";
 
 
 const FILMS_ALL_COUNT = 17;
@@ -19,13 +19,13 @@ const FILMS_PER_PAGE = 5;
 
 const renderFilmCard = (filmsContainer, film) => {
   const onFilmCardElementClick = () => {
-    siteBodyElement.appendChild(filmDetailsComponent.getElement());
+    appendChild(siteBodyElement, filmDetailsComponent.getElement());
     filmDetailsComponentCloseButton.addEventListener(`click`, onFilmDetailsCloseButtonClick);
     document.addEventListener(`keydown`, onEscKeyDown);
   };
 
   const onFilmDetailsCloseButtonClick = () => {
-    siteBodyElement.removeChild(filmDetailsComponent.getElement());
+    removeChild(siteBodyElement, filmDetailsComponent.getElement());
     document.removeEventListener(`keydown`, onEscKeyDown);
   };
 
@@ -72,7 +72,7 @@ const renderFilmCardsAllContainer = (filmsContainer, films) => {
     filmsRenderedCount += FILMS_PER_PAGE;
 
     if (filmsRenderedCount >= films.length) {
-      showMoreButtonComponent.getElement().remove();
+      remove(showMoreButtonComponent.getElement());
       showMoreButtonComponent.removeElement();
     }
   });
