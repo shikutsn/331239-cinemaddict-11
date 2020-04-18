@@ -52,7 +52,7 @@ const renderFilmCard = (filmsContainer, film) => {
   const filmDetailsComponentCloseButton = filmDetailsComponent.getElement().querySelector(`.film-details__close-btn`);
 
 
-  render(filmsContainer, filmCardComponent.getElement());
+  render(filmsContainer, filmCardComponent);
 };
 
 
@@ -64,7 +64,7 @@ const renderFilmCardsAllContainer = (filmsContainer, films) => {
   const siteFilmsAllMoviesElement = siteFilmsContainerElement.querySelector(`.films-list`);
   const showMoreButtonComponent = new ShowMoreButtonComponent();
 
-  render(siteFilmsAllMoviesElement, showMoreButtonComponent.getElement());
+  render(siteFilmsAllMoviesElement, showMoreButtonComponent);
 
   showMoreButtonComponent.getElement().addEventListener(`click`, () => {
     films.slice(filmsRenderedCount, filmsRenderedCount + FILMS_PER_PAGE).forEach((film) => renderFilmCard(filmsContainer, film));
@@ -91,36 +91,36 @@ const userFilmsWatched = films.reduce((total, it) => it.isWatchlisted ? ++total 
 const filters = generateFilters();
 
 const siteHeaderElement = document.querySelector(`.header`);
-render(siteHeaderElement, new UserRankComponent(userFilmsWatched).getElement());
+render(siteHeaderElement, new UserRankComponent(userFilmsWatched));
 
 
 const siteMainElement = document.querySelector(`.main`);
-render(siteMainElement, new MainNavigationComponent().getElement());
+render(siteMainElement, new MainNavigationComponent());
 
 const siteNavigationElement = siteMainElement.querySelector(`.main-navigation`);
-render(siteNavigationElement, new FiltersComponent(filters, films).getElement(), RenderPosition.AFTERBEGIN);
+render(siteNavigationElement, new FiltersComponent(filters, films), RenderPosition.AFTERBEGIN);
 
-render(siteMainElement, new SortingButtonsComponent().getElement());
-render(siteMainElement, new FilmsBoardComponent().getElement());
+render(siteMainElement, new SortingButtonsComponent());
+render(siteMainElement, new FilmsBoardComponent());
 
 
 const siteFilmsContainerElement = siteMainElement.querySelector(`.films`);
 const noMovies = !films.length;
 if (noMovies) {
-  render(siteFilmsContainerElement, new FilmCardsContainerComponent(`There are no movies in our database`, false, false).getElement());
+  render(siteFilmsContainerElement, new FilmCardsContainerComponent(`There are no movies in our database`, false, false));
 } else {
-  render(siteFilmsContainerElement, new FilmCardsContainerComponent(`All movies. Upcoming`, true, false).getElement());
+  render(siteFilmsContainerElement, new FilmCardsContainerComponent(`All movies. Upcoming`, true, false));
 
   const siteFilmsAllMoviesContainerElement = siteFilmsContainerElement.querySelector(`.films-list__container`);
   renderFilmCardsAllContainer(siteFilmsAllMoviesContainerElement, films);
 
   const filmsTopRatedContainerComponent = new FilmCardsContainerComponent(`Top rated`, false, true);
   const siteFilmsTopRatedContainerElement = filmsTopRatedContainerComponent.getElement().querySelector(`.films-list__container`);
-  render(siteFilmsContainerElement, filmsTopRatedContainerComponent.getElement());
+  render(siteFilmsContainerElement, filmsTopRatedContainerComponent);
 
   const filmsMostCommentedContainerComponent = new FilmCardsContainerComponent(`Most commented`, false, true);
   const siteFilmsMostCommentedContainerElement = filmsMostCommentedContainerComponent.getElement().querySelector(`.films-list__container`);
-  render(siteFilmsContainerElement, filmsMostCommentedContainerComponent.getElement());
+  render(siteFilmsContainerElement, filmsMostCommentedContainerComponent);
 
 
   renderFilmCardsExtraContainer(siteFilmsTopRatedContainerElement, filmsSortedByRating);
@@ -128,4 +128,4 @@ if (noMovies) {
 }
 
 const siteFilmsTotalElement = document.querySelector(`.footer__statistics`);
-render(siteFilmsTotalElement, new FilmsTotalComponent(filmsTotal).getElement());
+render(siteFilmsTotalElement, new FilmsTotalComponent(filmsTotal));
