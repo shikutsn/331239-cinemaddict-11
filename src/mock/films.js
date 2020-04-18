@@ -1,6 +1,4 @@
-import {getRandomNumber} from "../utils.js";
-import {getRandomArrayItem} from "../utils.js";
-import {removeDuplicates} from "../utils.js";
+import {getRandomNumber, getRandomArrayItem, removeDuplicates} from "../utils/common.js";
 
 const GlobalMockData = {
   TEXT: [
