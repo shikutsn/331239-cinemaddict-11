@@ -10,7 +10,7 @@ import SortingButtonsComponent from "./components/sorting-buttons.js";
 import UserRankComponent from "./components/user-rank.js";
 import {generateFilms} from "./mock/films.js";
 import {generateFilters} from "./mock/filters.js";
-import {render, RenderPosition} from "./utils.js";
+import {render, RenderPosition} from "./utils/render.js";
 
 
 const FILMS_ALL_COUNT = 17;
