@@ -22,11 +22,11 @@ const render = (container, component, place = RenderPosition.BEFOREEND) => {
   }
 };
 
-const appendChild = (parent, component) => {
+const addComponent = (parent, component) => {
   parent.appendChild(component.getElement());
 };
 
-const removeChild = (parent, component) => {
+const removeComponent = (parent, component) => {
   parent.removeChild(component.getElement());
 };
 
@@ -35,4 +35,4 @@ const remove = (component) => {
   component.removeElement();
 };
 
-export {RenderPosition, createElement, render, appendChild, removeChild, remove};
+export {RenderPosition, createElement, render, addComponent, removeComponent, remove};

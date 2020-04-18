@@ -10,7 +10,7 @@ import SortingButtonsComponent from "./components/sorting-buttons.js";
 import UserRankComponent from "./components/user-rank.js";
 import {generateFilms} from "./mock/films.js";
 import {generateFilters} from "./mock/filters.js";
-import {render, RenderPosition, appendChild, removeChild, remove} from "./utils/render.js";
+import {render, RenderPosition, addComponent, removeComponent, remove} from "./utils/render.js";
 
 
 const FILMS_ALL_COUNT = 17;
@@ -19,13 +19,13 @@ const FILMS_PER_PAGE = 5;
 
 const renderFilmCard = (filmsContainer, film) => {
   const onFilmCardElementClick = () => {
-    appendChild(siteBodyElement, filmDetailsComponent);
+    addComponent(siteBodyElement, filmDetailsComponent);
     filmDetailsComponent.closeButtonClickHandler(onFilmDetailsCloseButtonClick);
     document.addEventListener(`keydown`, onEscKeyDown);
   };
 
   const onFilmDetailsCloseButtonClick = () => {
-    removeChild(siteBodyElement, filmDetailsComponent);
+    removeComponent(siteBodyElement, filmDetailsComponent);
     document.removeEventListener(`keydown`, onEscKeyDown);
   };
 

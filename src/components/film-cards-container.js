@@ -1,5 +1,6 @@
 import AbstractComponent from "./abstract-component.js";
 
+// TODO занести в константы тру/фолс для этого класса, а то не ясно, что там происходит, когда из мейна его вызывают
 const createFilmCardsContainerTemplate = (caption, isHidden, isExtra) => {
   const captionMarkup = `<h2 class="films-list__title${isHidden ? ` visually-hidden` : ``}">${caption}</h2>`;
   const classMarkup = `class="${isExtra ? `films-list--extra` : `films-list`}"`;
