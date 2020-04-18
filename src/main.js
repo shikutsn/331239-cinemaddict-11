@@ -11,7 +11,7 @@ import {generateFilters} from "./mock/filters.js";
 import {render, RenderPosition} from "./utils/render.js";
 
 
-const FILMS_ALL_COUNT = 17;
+const FILMS_ALL_COUNT = 12;
 
 
 const films = generateFilms(FILMS_ALL_COUNT);
