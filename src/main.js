@@ -20,7 +20,7 @@ const FILMS_PER_PAGE = 5;
 const renderFilmCard = (filmsContainer, film) => {
   const onFilmCardElementClick = () => {
     appendChild(siteBodyElement, filmDetailsComponent);
-    filmDetailsComponentCloseButton.addEventListener(`click`, onFilmDetailsCloseButtonClick);
+    filmDetailsComponent.closeButtonClickHandler(onFilmDetailsCloseButtonClick);
     document.addEventListener(`keydown`, onEscKeyDown);
   };
 
@@ -37,20 +37,11 @@ const renderFilmCard = (filmsContainer, film) => {
     }
   };
 
-  const filmCardComponent = new FilmCardComponent(film);
-
   const siteBodyElement = document.querySelector(`body`);
-
-  const filmCardComponentTitle = filmCardComponent.getElement().querySelector(`.film-card__title`);
-  const filmCardComponentPoster = filmCardComponent.getElement().querySelector(`.film-card__poster`);
-  const filmCardComponentComments = filmCardComponent.getElement().querySelector(`.film-card__comments`);
-  filmCardComponentTitle.addEventListener(`click`, onFilmCardElementClick);
-  filmCardComponentPoster.addEventListener(`click`, onFilmCardElementClick);
-  filmCardComponentComments.addEventListener(`click`, onFilmCardElementClick);
-
+  const filmCardComponent = new FilmCardComponent(film);
   const filmDetailsComponent = new FilmDetailsComponent(film);
-  const filmDetailsComponentCloseButton = filmDetailsComponent.getElement().querySelector(`.film-details__close-btn`);
 
+  filmCardComponent.filmCardElementClickHandler(onFilmCardElementClick);
 
   render(filmsContainer, filmCardComponent);
 };
@@ -66,7 +57,7 @@ const renderFilmCardsAllContainer = (filmsContainer, films) => {
 
   render(siteFilmsAllMoviesElement, showMoreButtonComponent);
 
-  showMoreButtonComponent.getElement().addEventListener(`click`, () => {
+  showMoreButtonComponent.setClickHandler(() => {
     films.slice(filmsRenderedCount, filmsRenderedCount + FILMS_PER_PAGE).forEach((film) => renderFilmCard(filmsContainer, film));
 
     filmsRenderedCount += FILMS_PER_PAGE;
