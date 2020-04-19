@@ -59,4 +59,4 @@ export default class SortingButtons extends AbstractComponent {
   }
 }
 
-export {};
+export {SortType};
