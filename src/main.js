@@ -28,7 +28,10 @@ render(siteMainElement, siteMainNavigationComponent);
 
 const siteNavigationElement = siteMainNavigationComponent.getElement();
 render(siteNavigationElement, new FiltersComponent(filters, films), RenderPosition.AFTERBEGIN);
-render(siteMainElement, new SortingButtonsComponent());
+
+const sortingButtonsComponent = new SortingButtonsComponent();
+render(siteMainElement, sortingButtonsComponent);
+// sortingButtonsComponent.setSortTypeChangeHandler();
 
 const siteFilmsTotalElement = document.querySelector(`.footer__statistics`);
 render(siteFilmsTotalElement, new FilmsTotalComponent(filmsTotal));
