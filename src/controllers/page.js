@@ -3,6 +3,7 @@ import FilmCardsContainerComponent from "../components/film-cards-container.js";
 import FilmDetailsComponent from "../components/film-details.js";
 import FilmsBoardComponent from "../components/films-board.js";
 import ShowMoreButtonComponent from "../components/show-more-button.js";
+import SortingButtonsComponent from "../components/sorting-buttons.js";
 import {render, addComponent, removeComponent, remove} from "../utils/render.js";
 
 
@@ -70,6 +71,7 @@ export default class PageController {
   constructor(container) {
     this._container = container;
 
+    this._sortingButtonsComponent = new SortingButtonsComponent();
     this._noFilmsContainerComponent = new FilmCardsContainerComponent(`There are no movies in our database`, false, false);
     this._siteFilmsBoardComponent = new FilmsBoardComponent();
     this._filmCardsAllContainer = new FilmCardsContainerComponent(`All movies. Upcoming`, true, false);
@@ -84,6 +86,8 @@ export default class PageController {
     const filmsSortedByRating = films.slice().sort((a, b) => b.rating - a.rating);
     const siteFilmsContainerElement = this._siteFilmsBoardComponent.getElement();
 
+
+    render(this._container, this._sortingButtonsComponent);
     render(this._container, this._siteFilmsBoardComponent);
 
     if (!filmsTotal) {

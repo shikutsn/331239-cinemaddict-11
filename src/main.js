@@ -3,8 +3,6 @@ import FilmsTotalComponent from "./components/films-total.js";
 import FiltersComponent from "./components/filters.js";
 import MainNavigationComponent from "./components/main-navigation.js";
 import PageController from "./controllers/page.js";
-
-import SortingButtonsComponent from "./components/sorting-buttons.js";
 import UserRankComponent from "./components/user-rank.js";
 import {generateFilms} from "./mock/films.js";
 import {generateFilters} from "./mock/filters.js";
@@ -28,10 +26,6 @@ render(siteMainElement, siteMainNavigationComponent);
 
 const siteNavigationElement = siteMainNavigationComponent.getElement();
 render(siteNavigationElement, new FiltersComponent(filters, films), RenderPosition.AFTERBEGIN);
-
-const sortingButtonsComponent = new SortingButtonsComponent();
-render(siteMainElement, sortingButtonsComponent);
-// sortingButtonsComponent.setSortTypeChangeHandler();
 
 const siteFilmsTotalElement = document.querySelector(`.footer__statistics`);
 render(siteFilmsTotalElement, new FilmsTotalComponent(filmsTotal));
