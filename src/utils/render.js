@@ -31,6 +31,7 @@ const removeComponent = (parent, component) => {
 };
 
 const remove = (component) => {
+  // TODO нужна ли проверка на существование?
   component.getElement().remove();
   component.removeElement();
 };
