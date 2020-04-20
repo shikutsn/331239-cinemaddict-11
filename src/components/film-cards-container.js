@@ -1,9 +1,15 @@
 import AbstractComponent from "./abstract-component.js";
 
-// TODO занести в константы тру/фолс для этого класса, а то не ясно, что там происходит, когда из мейна его вызывают
-const createFilmCardsContainerTemplate = (caption, isHidden, isExtra) => {
+const FilmsContainerOption = {
+  CAPTION_HIDDEN: true,
+  CAPTION_SHOWN: false,
+  MAIN: false,
+  EXTRA: true,
+};
+
+const createFilmCardsContainerTemplate = (caption, isCaptionHidden, isExtra) => {
   const classMarkup = `class="${isExtra ? `films-list--extra` : `films-list`}"`;
-  const captionMarkup = `<h2 class="films-list__title${isHidden ? ` visually-hidden` : ``}">${caption}</h2>`;
+  const captionMarkup = `<h2 class="films-list__title${isCaptionHidden ? ` visually-hidden` : ``}">${caption}</h2>`;
 
   return (
     `<section ${classMarkup}>
@@ -15,11 +21,11 @@ const createFilmCardsContainerTemplate = (caption, isHidden, isExtra) => {
 };
 
 export default class FilmCardsContainer extends AbstractComponent {
-  constructor(caption, isHidden, isExtra) {
+  constructor(caption, isCaptionHidden, isExtra) {
     super();
 
     this._caption = caption;
-    this._isHidden = isHidden;
+    this._isHidden = isCaptionHidden;
     this._isExtra = isExtra;
   }
 
@@ -27,3 +33,5 @@ export default class FilmCardsContainer extends AbstractComponent {
     return createFilmCardsContainerTemplate(this._caption, this._isHidden, this._isExtra);
   }
 }
+
+export {FilmsContainerOption};

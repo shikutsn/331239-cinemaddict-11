@@ -6,6 +6,7 @@ import ShowMoreButtonComponent from "../components/show-more-button.js";
 import SortingButtonsComponent from "../components/sorting-buttons.js";
 import {render, addComponent, removeComponent, remove} from "../utils/render.js";
 import {SortType} from "../components/sorting-buttons.js";
+import {FilmsContainerOption} from "../components/film-cards-component.js";
 
 
 const FILMS_EXTRA_COUNT = 2;
@@ -40,21 +41,6 @@ const renderFilmCard = (filmsContainer, film) => {
   render(filmsContainer, filmCardComponent);
 };
 
-
-// const renderFilmCardsAllContainer = (filmsContainer, filmsAllComponent, films) => {
-//   render(filmsContainer, filmsAllComponent); // рисуем в общем section films section films-list
-//   // находим div, в который накидываются карточки фильмов и рендерим их в него
-//   const siteFilmsAllMoviesContainerElement = filmsAllComponent.getElement().querySelector(`.films-list__container`);
-//   // siteFilmsAllMoviesContainerElement.innerHTML = ``;
-//   films.slice(0, filmsRenderedCount).forEach((film) => renderFilmCard(siteFilmsAllMoviesContainerElement, film));
-// };
-//
-// const renderFilmCardsExtraContainer = (filmsContainer, filmsExtraComponent, extraFilms) => {
-//   render(filmsContainer, filmsExtraComponent);
-//   const extraFilmsContainerElement = filmsExtraComponent.getElement().querySelector(`.films-list__container`);
-//   extraFilms.slice(0, FILMS_EXTRA_COUNT).forEach((film) => renderFilmCard(extraFilmsContainerElement, film));
-// };
-
 // рендерит карточки фильмов (начиная с индекса startIndex count штук) в указанный section films-list, не рендеря сам section
 // на вход дается section films-list или films-list--extra, в нем ищется div
 const renderFilmCards = (filmsContainer, films, startIndex, count) => {
@@ -69,10 +55,10 @@ export default class PageController {
 
     this._sortingButtonsComponent = new SortingButtonsComponent();
     this._siteFilmsContainerComponent = new FilmsContainerComponent();
-    this._noFilmsContainerComponent = new FilmCardsContainerComponent(`There are no movies in our database`, false, false);
-    this._filmCardsAllContainer = new FilmCardsContainerComponent(`All movies. Upcoming`, true, false);
-    this._filmsTopRatedContainerComponent = new FilmCardsContainerComponent(`Top rated`, false, true);
-    this._filmsMostCommentedContainerComponent = new FilmCardsContainerComponent(`Most commented`, false, true);
+    this._noFilmsContainerComponent = new FilmCardsContainerComponent(`There are no movies in our database`, FilmsContainerOption.CAPTION_SHOWN, FilmsContainerOption.MAIN);
+    this._filmCardsAllContainer = new FilmCardsContainerComponent(`All movies. Upcoming`, FilmsContainerOption.CAPTION_SHOWN, FilmsContainerOption.MAIN);
+    this._filmsTopRatedContainerComponent = new FilmCardsContainerComponent(`Top rated`, FilmsContainerOption.CAPTION_HIDDEN, FilmsContainerOption.EXTRA);
+    this._filmsMostCommentedContainerComponent = new FilmCardsContainerComponent(`Most commented`, FilmsContainerOption.CAPTION_HIDDEN, FilmsContainerOption.EXTRA);
     this._showMoreButtonComponent = new ShowMoreButtonComponent();
   }
 

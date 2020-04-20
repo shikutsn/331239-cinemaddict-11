@@ -9,12 +9,12 @@ import {generateFilters} from "./mock/filters.js";
 import {render, RenderPosition} from "./utils/render.js";
 
 
-const FILMS_ALL_COUNT = 2;
+const FILMS_ALL_COUNT = 18;
 
 
 const films = generateFilms(FILMS_ALL_COUNT);
 const filmsTotal = films.length;
-const userFilmsWatched = films.reduce((total, it) => it.isWatchlisted ? ++total : total, 0);
+const userFilmsWatched = films.reduce((total, it) => it.isWatched ? ++total : total, 0);
 const filters = generateFilters();
 
 const siteHeaderElement = document.querySelector(`.header`);
