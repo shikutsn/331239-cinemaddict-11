@@ -100,21 +100,6 @@ export default class PageController {
     render(this._container, this._sortingButtonsComponent);
     render(this._container, this._siteFilmsContainerComponent); // общий контейнер для фильмов (section films)
 
-    if (!filmsTotal) {
-      render(siteFilmsContainerElement, this._noFilmsContainerComponent);
-    } else {
-      // рендер трех section films-list и films-list--extra
-      render(siteFilmsContainerElement, this._filmCardsAllContainer);
-      render(siteFilmsContainerElement, this._filmsTopRatedContainerComponent);
-      render(siteFilmsContainerElement, this._filmsMostCommentedContainerComponent);
-
-      renderFilmCards(this._filmCardsAllContainer, films, 0, filmsRenderedCount); // All
-      renderFilmCards(this._filmsTopRatedContainerComponent, filmsSortedByRating, 0, FILMS_EXTRA_COUNT); // top rated
-      renderFilmCards(this._filmsMostCommentedContainerComponent, filmsSortedByComments, 0, FILMS_EXTRA_COUNT); // top commented
-
-      renderShowMoreButton(films);
-    }
-
     this._sortingButtonsComponent.setSortTypeChangeHandler((sortType) => {
       // очистим див, в который рисуются карточки фильмов
       this._filmCardsAllContainer.getElement().querySelector(`.films-list__container`).innerHTML = ``;
@@ -126,5 +111,21 @@ export default class PageController {
       renderFilmCards(this._filmCardsAllContainer, sortedFilms, 0, filmsRenderedCount);
       renderShowMoreButton(sortedFilms);
     });
+
+    if (!filmsTotal) {
+      render(siteFilmsContainerElement, this._noFilmsContainerComponent);
+      return;
+    }
+
+    // рендер трех section films-list и films-list--extra
+    render(siteFilmsContainerElement, this._filmCardsAllContainer);
+    render(siteFilmsContainerElement, this._filmsTopRatedContainerComponent);
+    render(siteFilmsContainerElement, this._filmsMostCommentedContainerComponent);
+
+    renderFilmCards(this._filmCardsAllContainer, films, 0, filmsRenderedCount); // All
+    renderFilmCards(this._filmsTopRatedContainerComponent, filmsSortedByRating, 0, FILMS_EXTRA_COUNT); // top rated
+    renderFilmCards(this._filmsMostCommentedContainerComponent, filmsSortedByComments, 0, FILMS_EXTRA_COUNT); // top commented
+
+    renderShowMoreButton(films);
   }
 }
