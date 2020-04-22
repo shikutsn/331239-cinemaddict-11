@@ -14,7 +14,7 @@ const FILMS_ALL_COUNT = 13;
 
 const films = generateFilms(FILMS_ALL_COUNT);
 const filmsTotal = films.length;
-const userFilmsWatched = films.reduce((total, it) => it.isWatched ? ++total : total, 0);
+const userFilmsWatched = films.reduce((total, it) => it.isWatched ? total + 1 : total, 0);
 const filters = generateFilters();
 
 const siteHeaderElement = document.querySelector(`.header`);
