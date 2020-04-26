@@ -40,7 +40,10 @@ export default class PageController {
 
     // TODO в конце проверить, есть ли в конструкторах контроллеров неиспользуемые приватные свойства
     this._films = [];
+    this._sortedFilms = [];
+    this._filmsSortedByComments = [];
     this._showMovieControllers = [];
+    this._filmsSortedByRating = [];
     this._filmsRenderedCount = 0;
 
     this._sortingButtonsComponent = new SortingButtonsComponent();
@@ -50,6 +53,10 @@ export default class PageController {
     this._filmsTopRatedContainerComponent = new FilmCardsContainerComponent(`Top rated`, FilmsContainerOption.CAPTION_HIDDEN, FilmsContainerOption.EXTRA);
     this._filmsMostCommentedContainerComponent = new FilmCardsContainerComponent(`Most commented`, FilmsContainerOption.CAPTION_HIDDEN, FilmsContainerOption.EXTRA);
     this._showMoreButtonComponent = new ShowMoreButtonComponent();
+
+    this._onSortTypeChange = this._onSortTypeChange.bind(this);
+
+    this._sortingButtonsComponent.setSortTypeChangeHandler(this._onSortTypeChange);
   }
 
   _renderShowMoreButton(filmsToRender) {
@@ -70,30 +77,31 @@ export default class PageController {
     });
   }
 
-  render(films) {
-    this._filmsRenderedCount = (films.length > FILMS_PER_PAGE) ? FILMS_PER_PAGE : films.length;
+  _onSortTypeChange(sortType) {
+    // очистим див, в который рисуются карточки фильмов
+    this._filmCardsAllContainer.getElement().querySelector(`.films-list__container`).innerHTML = ``;
+    // и кнопку show more если она есть
+    remove(this._showMoreButtonComponent);
 
-    const filmsTotal = films.length;
-    const filmsSortedByComments = films.slice().sort((a, b) => b.comments.length - a.comments.length);
-    const filmsSortedByRating = films.slice().sort((a, b) => b.rating - a.rating);
+    this._sortedFilms = getSortedFilms(this._films, sortType);
+    this._filmsRenderedCount = (this._sortedFilms.length > FILMS_PER_PAGE) ? FILMS_PER_PAGE : this._sortedFilms.length;
+    renderFilmCards(this._filmCardsAllContainer, this._sortedFilms, 0, this._filmsRenderedCount);
+    this._renderShowMoreButton(this._sortedFilms);
+  }
+
+  render(films) {
+    this._films = films;
+    this._filmsRenderedCount = (this._films.length > FILMS_PER_PAGE) ? FILMS_PER_PAGE : this._films.length;
+    this._filmsSortedByComments = this._films.slice().sort((a, b) => b.comments.length - a.comments.length);
+    this._filmsSortedByRating = this._films.slice().sort((a, b) => b.rating - a.rating);
+
     const siteFilmsContainerElement = this._siteFilmsContainerComponent.getElement();
 
     render(this._container, this._sortingButtonsComponent);
     render(this._container, this._siteFilmsContainerComponent); // общий контейнер для фильмов (section films)
 
-    this._sortingButtonsComponent.setSortTypeChangeHandler((sortType) => {
-      // очистим див, в который рисуются карточки фильмов
-      this._filmCardsAllContainer.getElement().querySelector(`.films-list__container`).innerHTML = ``;
-      // и кнопку show more если она есть
-      remove(this._showMoreButtonComponent);
-
-      const sortedFilms = getSortedFilms(films, sortType);
-      this._filmsRenderedCount = (sortedFilms.length > FILMS_PER_PAGE) ? FILMS_PER_PAGE : sortedFilms.length;
-      renderFilmCards(this._filmCardsAllContainer, sortedFilms, 0, this._filmsRenderedCount);
-      this._renderShowMoreButton(sortedFilms);
-    });
-
-    if (!filmsTotal) {
+    if (!this._films.length) {
+      // если фильмов для отрисовки нет - покажем сообщение об этом и отменим дальнейшую отрисовку
       render(siteFilmsContainerElement, this._noFilmsContainerComponent);
       return;
     }
@@ -103,10 +111,10 @@ export default class PageController {
     render(siteFilmsContainerElement, this._filmsTopRatedContainerComponent);
     render(siteFilmsContainerElement, this._filmsMostCommentedContainerComponent);
 
-    renderFilmCards(this._filmCardsAllContainer, films, 0, this._filmsRenderedCount); // All
-    renderFilmCards(this._filmsTopRatedContainerComponent, filmsSortedByRating, 0, FILMS_EXTRA_COUNT); // top rated
-    renderFilmCards(this._filmsMostCommentedContainerComponent, filmsSortedByComments, 0, FILMS_EXTRA_COUNT); // top commented
+    renderFilmCards(this._filmCardsAllContainer, this._films, 0, this._filmsRenderedCount); // All
+    renderFilmCards(this._filmsTopRatedContainerComponent, this._filmsSortedByRating, 0, FILMS_EXTRA_COUNT); // top rated
+    renderFilmCards(this._filmsMostCommentedContainerComponent, this._filmsSortedByComments, 0, FILMS_EXTRA_COUNT); // top commented
 
-    this._renderShowMoreButton(films);
+    this._renderShowMoreButton(this._films);
   }
 }
