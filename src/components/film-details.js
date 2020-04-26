@@ -90,7 +90,7 @@ const createFilmDetailsTemplate = (film) => {
   // TODO как-то странно, похоже, что все комментарии показываются разом, независимо от их количества
   const commentsMarkup = comments.map(createCommentMarkup).join(`\n`);
   const filmDetailsControlsMarkup = createFilmDetailsControlsMarkup(isWatchlisted, isWatched, isFavorite);
-  const releaseDateFormatted = `${releaseDate.getDate()} ${MONTH_NAMES[releaseDate.getMonth()]} ${releaseDate.getFullYear()}`;
+  const releaseDateFormatted = `${String(releaseDate.getDate()).padStart(2, `0`)} ${MONTH_NAMES[releaseDate.getMonth()]} ${releaseDate.getFullYear()}`;
   const emojiMarkup = createCommentsEmojiMarkup();
 
   return (

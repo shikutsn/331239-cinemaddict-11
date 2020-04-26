@@ -1,52 +1,15 @@
-import FilmCardComponent from "../components/film-card.js";
 import FilmCardsContainerComponent from "../components/film-cards-container.js";
-import FilmDetailsComponent from "../components/film-details.js";
 import FilmsContainerComponent from "../components/films-container.js";
+import MovieController from "./movie.js";
 import ShowMoreButtonComponent from "../components/show-more-button.js";
 import SortingButtonsComponent from "../components/sorting-buttons.js";
-import {render, addComponent, removeComponent, remove} from "../utils/render.js";
+import {render, remove} from "../utils/render.js";
 import {SortType} from "../components/sorting-buttons.js";
 import {FilmsContainerOption} from "../components/film-cards-container.js";
 
 
 const FILMS_EXTRA_COUNT = 2;
 const FILMS_PER_PAGE = 5;
-
-const renderFilmCard = (filmsContainer, film) => {
-  const onFilmCardElementClick = () => {
-    addComponent(siteBodyElement, filmDetailsComponent);
-    filmDetailsComponent.closeButtonClickHandler(onFilmDetailsCloseButtonClick);
-    document.addEventListener(`keydown`, onEscKeyDown);
-  };
-
-  const onFilmDetailsCloseButtonClick = () => {
-    removeComponent(siteBodyElement, filmDetailsComponent);
-    document.removeEventListener(`keydown`, onEscKeyDown);
-  };
-
-  const onEscKeyDown = (evt) => {
-    const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
-
-    if (isEscKey) {
-      onFilmDetailsCloseButtonClick();
-    }
-  };
-
-  const siteBodyElement = document.querySelector(`body`);
-  const filmCardComponent = new FilmCardComponent(film);
-  const filmDetailsComponent = new FilmDetailsComponent(film);
-
-  filmCardComponent.filmCardElementClickHandler(onFilmCardElementClick);
-
-  render(filmsContainer, filmCardComponent);
-};
-
-const renderFilmCards = (filmsContainer, filmsToRender, startIndex, count) => {
-  // рендерит карточки фильмов (начиная с индекса startIndex count штук) в указанный section films-list, не рендеря сам section
-  // на вход дается section films-list или films-list--extra, в нем ищется div
-  const filmsContainerElement = filmsContainer.getElement().querySelector(`.films-list__container`);
-  filmsToRender.slice(startIndex, startIndex + count).forEach((filmItem) => renderFilmCard(filmsContainerElement, filmItem));
-};
 
 const Sorting = {
   [SortType.DEFAULT]: (filmsToSort) => filmsToSort,
@@ -58,10 +21,25 @@ const getSortedFilms = (filmsToSort, sortType) => {
   return Sorting[sortType](filmsToSort);
 };
 
+const renderFilmCards = (filmsContainer, filmsToRender, startIndex, count) => {
+  // рендерит карточки фильмов (начиная с индекса startIndex count штук) в указанный section films-list, не рендеря сам section
+  // на вход дается section films-list или films-list--extra, в нем ищется div
+  // возвращает массив контроллеров отрендеренных фильмов
+  return filmsToRender.slice(startIndex, startIndex + count).map((film) => {
+    const movieController = new MovieController(filmsContainer);
+
+    movieController.render(film);
+
+    return movieController;
+  });
+};
 
 export default class PageController {
   constructor(container) {
     this._container = container;
+
+    this._films = [];
+    this._showMovieControllers = [];
 
     this._sortingButtonsComponent = new SortingButtonsComponent();
     this._siteFilmsContainerComponent = new FilmsContainerComponent();
