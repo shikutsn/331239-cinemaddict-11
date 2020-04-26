@@ -38,8 +38,10 @@ export default class PageController {
   constructor(container) {
     this._container = container;
 
+    // TODO в конце проверить, есть ли в конструкторах контроллеров неиспользуемые приватные свойства
     this._films = [];
     this._showMovieControllers = [];
+    this._filmsRenderedCount = 0;
 
     this._sortingButtonsComponent = new SortingButtonsComponent();
     this._siteFilmsContainerComponent = new FilmsContainerComponent();
@@ -50,27 +52,28 @@ export default class PageController {
     this._showMoreButtonComponent = new ShowMoreButtonComponent();
   }
 
-  render(films) {
-    const renderShowMoreButton = (filmsToRender) => {
-      // возможно, кнопка и не нужна изначально
-      if (filmsRenderedCount >= filmsToRender.length) {
-        return;
+  _renderShowMoreButton(filmsToRender) {
+    // возможно, кнопка и не нужна изначально
+    if (this._filmsRenderedCount >= filmsToRender.length) {
+      return;
+    }
+    render(this._filmCardsAllContainer.getElement(), this._showMoreButtonComponent);
+
+    this._showMoreButtonComponent.setClickHandler(() => {
+      renderFilmCards(this._filmCardsAllContainer, filmsToRender, this._filmsRenderedCount, FILMS_PER_PAGE);
+
+      this._filmsRenderedCount += FILMS_PER_PAGE;
+
+      if (this._filmsRenderedCount >= filmsToRender.length) {
+        remove(this._showMoreButtonComponent);
       }
-      render(this._filmCardsAllContainer.getElement(), this._showMoreButtonComponent);
+    });
+  }
 
-      this._showMoreButtonComponent.setClickHandler(() => {
-        renderFilmCards(this._filmCardsAllContainer, filmsToRender, filmsRenderedCount, FILMS_PER_PAGE);
-
-        filmsRenderedCount += FILMS_PER_PAGE;
-
-        if (filmsRenderedCount >= filmsToRender.length) {
-          remove(this._showMoreButtonComponent);
-        }
-      });
-    };
+  render(films) {
+    this._filmsRenderedCount = (films.length > FILMS_PER_PAGE) ? FILMS_PER_PAGE : films.length;
 
     const filmsTotal = films.length;
-    let filmsRenderedCount = (films.length > FILMS_PER_PAGE) ? FILMS_PER_PAGE : films.length;
     const filmsSortedByComments = films.slice().sort((a, b) => b.comments.length - a.comments.length);
     const filmsSortedByRating = films.slice().sort((a, b) => b.rating - a.rating);
     const siteFilmsContainerElement = this._siteFilmsContainerComponent.getElement();
@@ -85,9 +88,9 @@ export default class PageController {
       remove(this._showMoreButtonComponent);
 
       const sortedFilms = getSortedFilms(films, sortType);
-      filmsRenderedCount = (sortedFilms.length > FILMS_PER_PAGE) ? FILMS_PER_PAGE : sortedFilms.length;
-      renderFilmCards(this._filmCardsAllContainer, sortedFilms, 0, filmsRenderedCount);
-      renderShowMoreButton(sortedFilms);
+      this._filmsRenderedCount = (sortedFilms.length > FILMS_PER_PAGE) ? FILMS_PER_PAGE : sortedFilms.length;
+      renderFilmCards(this._filmCardsAllContainer, sortedFilms, 0, this._filmsRenderedCount);
+      this._renderShowMoreButton(sortedFilms);
     });
 
     if (!filmsTotal) {
@@ -100,10 +103,10 @@ export default class PageController {
     render(siteFilmsContainerElement, this._filmsTopRatedContainerComponent);
     render(siteFilmsContainerElement, this._filmsMostCommentedContainerComponent);
 
-    renderFilmCards(this._filmCardsAllContainer, films, 0, filmsRenderedCount); // All
+    renderFilmCards(this._filmCardsAllContainer, films, 0, this._filmsRenderedCount); // All
     renderFilmCards(this._filmsTopRatedContainerComponent, filmsSortedByRating, 0, FILMS_EXTRA_COUNT); // top rated
     renderFilmCards(this._filmsMostCommentedContainerComponent, filmsSortedByComments, 0, FILMS_EXTRA_COUNT); // top commented
 
-    renderShowMoreButton(films);
+    this._renderShowMoreButton(films);
   }
 }
