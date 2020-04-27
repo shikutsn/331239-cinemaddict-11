@@ -44,6 +44,8 @@ export default class MovieController {
       }));
     });
 
+    this._filmDetailsComponent.setEmojiListClickHandler(() => {});
+
   }
 
   _onFilmDetailsCloseButtonClick() {

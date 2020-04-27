@@ -1,5 +1,6 @@
 import AbstractSmartComponent from "./abstract-smart-component.js";
 import {MONTH_NAMES} from "../const.js";
+import {createElement} from "../utils/render.js";
 
 
 const EmojiMap = {
@@ -228,5 +229,40 @@ export default class FilmDetails extends AbstractSmartComponent {
   setWatchlistedButtonClickHandler(handler) {
     this.getElement().querySelector(`.film-details__control-label--watchlist`)
       .addEventListener(`click`, handler);
+  }
+
+  setEmojiListClickHandler() {
+    const emojiListElement = this.getElement().querySelector(`.film-details__emoji-list`);
+
+    emojiListElement.addEventListener(`click`, (evt) => {
+      // evt.preventDefault();
+
+
+      if (evt.target.tagName !== `INPUT`) {
+        return;
+      }
+
+      // let tmp = evt.target.closest(`.film-details__emoji-item`);
+      // console.log(tmp)
+      // tmp.checked = true;
+      // let tmp = evt.target;
+      // console.log(`tmp.checked: ${tmp.checked}`)
+      // console.log(`value: ${tmp.value}`)
+
+
+      const emojiContainerElement = this.getElement().querySelector(`.film-details__add-emoji-label`);
+      const isEmojiAlreadyRendered = emojiContainerElement.childNodes.length;
+
+      const emojiPath = EmojiMap[evt.target.value];
+      const selectedEmojiElement = createElement(`<img src="${emojiPath}" width="55" height="55" alt="emoji-smile">`);
+      if (isEmojiAlreadyRendered) {
+        emojiContainerElement.replaceChild(selectedEmojiElement, emojiContainerElement.firstChild);
+      } else {
+        emojiContainerElement.append(selectedEmojiElement);
+      }
+
+
+      // handler();
+    });
   }
 }
