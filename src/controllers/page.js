@@ -51,7 +51,6 @@ export default class PageController {
   constructor(container, films, filters) {
     this._container = container;
 
-    // TODO в конце проверить, есть ли в конструкторах контроллеров неиспользуемые приватные свойства
     this._films = films;
     this._filters = filters;
     this._sortedFilms = [];
@@ -59,8 +58,7 @@ export default class PageController {
     this._filmsRenderedCount = 0;
     this._filmsSortedByComments = this._films.slice().sort((a, b) => b.comments.length - a.comments.length);
     this._filmsSortedByRating = this._films.slice().sort((a, b) => b.rating - a.rating);
-    this._showMovieControllers = [];
-
+    // this._showMovieControllers = [];
 
     this._sortingButtonsComponent = new SortingButtonsComponent();
     this._siteFilmsContainerComponent = new FilmsContainerComponent();
@@ -98,13 +96,12 @@ export default class PageController {
   }
 
   _onSortTypeChange(sortType) {
-    // TODO ух ты, а сортировка-то должна работать с фильтрованными фильмами
     // очистим див, в который рисуются карточки фильмов
     this._filmCardsAllContainer.getElement().querySelector(`.films-list__container`).innerHTML = ``;
     // и кнопку show more если она есть
     remove(this._showMoreButtonComponent);
 
-    this._sortedFilms = getSortedFilms(this._films, sortType);
+    this._sortedFilms = getSortedFilms(this._filteredFilms, sortType);
     this._filmsRenderedCount = (this._sortedFilms.length > FILMS_PER_PAGE) ? FILMS_PER_PAGE : this._sortedFilms.length;
     renderFilmCards(this._filmCardsAllContainer, this._sortedFilms, 0, this._filmsRenderedCount, this._onDataChange);
     this._renderShowMoreButton(this._sortedFilms);
