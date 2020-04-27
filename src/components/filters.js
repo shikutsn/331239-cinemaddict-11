@@ -95,8 +95,6 @@ export default class Filters extends AbstractSmartComponent {
   rerender(newFilms) {
     this._films = newFilms;
     super.rerender();
-    // this.getElement().querySelector(`.${FilterButtonCls.ACTIVE}`).classList.remove(FilterButtonCls.ACTIVE);
-    // this.getElement().querySelector(`.${this._currentFilterType}`).classList.add(FilterButtonCls.ACTIVE);
   }
 
   getCurrentFilterType() {

@@ -23,36 +23,39 @@ export default class MovieController {
     this._filmDetailsComponent.closeButtonClickHandler(this._onFilmDetailsCloseButtonClick);
     document.addEventListener(`keydown`, this._onEscKeyDown);
 
-    // this._filmDetailsComponent.setFavoritesButtonClickHandler((film) => {
-    //   this._onDataChange(this, film, Object.assign({}, film, {
-    //     isFavorite: !film.isFavorite,
-    //   }));
-    // });
-    //
-    // this._filmDetailsComponent.setWatchedButtonClickHandler((film) => {
-    //   this._onDataChange(this, film, Object.assign({}, film, {
-    //     isWatched: !film.isWatched,
-    //   }));
-    // });
-    //
-    // this._filmDetailsComponent.setWatchlistedButtonClickHandler((film) => {
-    //   this._onDataChange(this, film, Object.assign({}, film, {
-    //     isWatchlisted: !film.isWatchlisted,
-    //   }));
-    // });
+    const currentFilm = this._filmDetailsComponent.getFilm();
+
+    this._filmDetailsComponent.setFavoritesButtonClickHandler(() => {
+      this._onDataChange(this, currentFilm, Object.assign({}, currentFilm, {
+        isFavorite: !currentFilm.isFavorite,
+      }));
+    });
+
+    this._filmDetailsComponent.setWatchedButtonClickHandler(() => {
+      this._onDataChange(this, currentFilm, Object.assign({}, currentFilm, {
+        isWatched: !currentFilm.isWatched,
+      }));
+    });
+
+    this._filmDetailsComponent.setWatchlistedButtonClickHandler(() => {
+      this._onDataChange(this, currentFilm, Object.assign({}, currentFilm, {
+        isWatchlisted: !currentFilm.isWatchlisted,
+      }));
+    });
 
   }
 
   _onFilmDetailsCloseButtonClick() {
-    console.log(`--in closing--`)
-    console.log(this._siteBodyElement);
-    console.log(this._filmDetailsComponent)
-    console.log(this._filmDetailsComponent.getElement())
-    console.log(this._siteBodyElement.childNodes)
-    // const tmp = this._siteBodyElement.querySelector(`.film-details`);
-    // this._siteBodyElement.removeChild(tmp);
+    // console.log(`--in closing--`);
+    // console.log(this._siteBodyElement);
+    // console.log(this._filmDetailsComponent);
+    // console.log(this._filmDetailsComponent.getElement());
+    // console.log(this._siteBodyElement.childNodes);
 
-    removeComponent(this._siteBodyElement, this._filmDetailsComponent);
+    // TODO приходится напрямую удалять попап, потому что после каких-то(??) манипуляций this.FilmDetailsComponent.getElement() больше не является потомком body =)
+    this._siteBodyElement.removeChild(this._siteBodyElement.querySelector(`.film-details`));
+
+    // removeComponent(this._filmDetailsComponent);
     document.removeEventListener(`keydown`, this._onEscKeyDown);
   }
 
