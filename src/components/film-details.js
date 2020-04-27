@@ -1,4 +1,4 @@
-import AbstractComponent from "./abstract-component.js";
+import AbstractSmartComponent from "./abstract-smart-component.js";
 import {MONTH_NAMES} from "../const.js";
 
 
@@ -186,7 +186,7 @@ const createFilmDetailsTemplate = (film) => {
   );
 };
 
-export default class FilmDetails extends AbstractComponent {
+export default class FilmDetails extends AbstractSmartComponent {
   constructor(film) {
     super();
 
@@ -199,6 +199,15 @@ export default class FilmDetails extends AbstractComponent {
 
   getFilm() {
     return this._film;
+  }
+
+  recoverListeners() {
+    // TODO placeholder
+  }
+
+  rerender() {
+    // TODO placeholder
+    super.rerender();
   }
 
   closeButtonClickHandler(handler) {

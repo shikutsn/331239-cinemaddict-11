@@ -1,6 +1,7 @@
 import FilmCardComponent from "../components/film-card.js";
 import FilmDetailsComponent from "../components/film-details.js";
-import {addComponent, removeComponent, render, replace} from "../utils/render.js";
+import {addComponent, render, replace} from "../utils/render.js";
+// import {removeComponent} from "../utils/render.js";
 
 export default class MovieController {
   constructor(container, onDataChange) {
