@@ -6,6 +6,7 @@ import ShowMoreButtonComponent from "../components/show-more-button.js";
 import SortingButtonsComponent from "../components/sorting-buttons.js";
 import {render, RenderPosition, remove} from "../utils/render.js";
 import {SortType} from "../components/sorting-buttons.js";
+import {FiltersData} from "../components/filters.js";
 import {FilmsContainerOption} from "../components/film-cards-container.js";
 
 
@@ -20,6 +21,17 @@ const Sorting = {
 
 const getSortedFilms = (filmsToSort, sortType) => {
   return Sorting[sortType](filmsToSort);
+};
+
+const Filtering = {
+  [FiltersData[`ALL_MOVIES`].DATA_TAG]: (filmsToFilter) => filmsToFilter,
+  [FiltersData[`WATCHLIST`].DATA_TAG]: (filmsToFilter) => filmsToFilter.filter((film) => film.isWatchlisted),
+  [FiltersData[`HISTORY`].DATA_TAG]: (filmsToFilter) => filmsToFilter.filter((film) => film.isWatched),
+  [FiltersData[`FAVORITES`].DATA_TAG]: (filmsToFilter) => filmsToFilter.filter((film) => film.isFavorite),
+};
+
+const getFilteredFilms = (filmsToFilter, filterType) => {
+  return Filtering[filterType](filmsToFilter);
 };
 
 const renderFilmCards = (filmsContainer, filmsToRender, startIndex, count, onDataChange) => {
@@ -43,6 +55,7 @@ export default class PageController {
     this._films = films;
     this._filters = filters;
     this._sortedFilms = [];
+    this._filteredFilms = this._films;
     this._filmsRenderedCount = 0;
     this._filmsSortedByComments = this._films.slice().sort((a, b) => b.comments.length - a.comments.length);
     this._filmsSortedByRating = this._films.slice().sort((a, b) => b.rating - a.rating);
@@ -60,8 +73,10 @@ export default class PageController {
 
     this._onSortTypeChange = this._onSortTypeChange.bind(this);
     this._onDataChange = this._onDataChange.bind(this);
+    this._onFilterTypeChange = this._onFilterTypeChange.bind(this);
 
     this._sortingButtonsComponent.setSortTypeChangeHandler(this._onSortTypeChange);
+    this._filtersComponent.setFilterTypeChangeHandler(this._onFilterTypeChange);
   }
 
   _renderShowMoreButton(filmsToRender) {
@@ -83,6 +98,7 @@ export default class PageController {
   }
 
   _onSortTypeChange(sortType) {
+    // TODO ух ты, а сортировка-то должна работать с фильтрованными фильмами
     // очистим див, в который рисуются карточки фильмов
     this._filmCardsAllContainer.getElement().querySelector(`.films-list__container`).innerHTML = ``;
     // и кнопку show more если она есть
@@ -92,6 +108,18 @@ export default class PageController {
     this._filmsRenderedCount = (this._sortedFilms.length > FILMS_PER_PAGE) ? FILMS_PER_PAGE : this._sortedFilms.length;
     renderFilmCards(this._filmCardsAllContainer, this._sortedFilms, 0, this._filmsRenderedCount, this._onDataChange);
     this._renderShowMoreButton(this._sortedFilms);
+  }
+
+  _onFilterTypeChange(filterType) {
+    // очистим див, в который рисуются карточки фильмов
+    this._filmCardsAllContainer.getElement().querySelector(`.films-list__container`).innerHTML = ``;
+    // и кнопку show more если она есть
+    remove(this._showMoreButtonComponent);
+
+    this._filteredFilms = getFilteredFilms(this._films, filterType);
+    this._filmsRenderedCount = (this._filteredFilms.length > FILMS_PER_PAGE) ? FILMS_PER_PAGE : this._filteredFilms.length;
+    renderFilmCards(this._filmCardsAllContainer, this._filteredFilms, 0, this._filmsRenderedCount, this._onDataChange);
+    this._renderShowMoreButton(this._filteredFilms);
   }
 
   _onDataChange(movieController, oldData, newData) {

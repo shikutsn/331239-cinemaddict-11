@@ -1,5 +1,9 @@
 import AbstractSmartComponent from "./abstract-smart-component.js";
 
+const FilterButtonCls = {
+  DEFAULT: ``,
+  ACTIVE: `main-navigation__item--active`,
+};
 
 const FiltersData = {
   "ALL_MOVIES": {
@@ -70,6 +74,7 @@ export default class Filters extends AbstractSmartComponent {
     super();
 
     this._films = films;
+    this._currentFilterType = FiltersData[`ALL_MOVIES`].DATA_TAG;
   }
 
   getTemplate() {
@@ -85,27 +90,27 @@ export default class Filters extends AbstractSmartComponent {
     super.rerender();
   }
 
-  // setFilterTypeChangeHandler(handler) {
-  //   this.getElement().addEventListener(`click`, (evt) => {
-  //     evt.preventDefault();
-  //
-  //     if (evt.target.tagName !== `A`) {
-  //       return;
-  //     }
-  //
-  //     const sortType = evt.target.dataset.sortType;
-  //
-  //     if (this._currentSortType === sortType) {
-  //       return;
-  //     }
-  //
-  //     this._currentSortType = sortType;
-  //     this.getElement().querySelector(`.${SortButtonCls.ACTIVE}`).classList.remove(SortButtonCls.ACTIVE);
-  //     evt.target.classList.add(SortButtonCls.ACTIVE);
-  //
-  //     handler(this._currentSortType);
-  //   });
-  // }
+  setFilterTypeChangeHandler(handler) {
+    this.getElement().addEventListener(`click`, (evt) => {
+      evt.preventDefault();
+
+      if (evt.target.tagName !== `A`) {
+        return;
+      }
+
+      const filterType = evt.target.dataset.filterType;
+
+      if (this._currentFilterType === filterType) {
+        return;
+      }
+
+      this._currentFilterType = filterType;
+      this.getElement().querySelector(`.${FilterButtonCls.ACTIVE}`).classList.remove(FilterButtonCls.ACTIVE);
+      evt.target.classList.add(FilterButtonCls.ACTIVE);
+
+      handler(this._currentFilterType);
+    });
+  }
 }
 
-// export {FilterType};
+export {FiltersData};
