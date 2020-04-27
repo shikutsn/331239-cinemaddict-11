@@ -11,21 +11,21 @@ const FiltersData = {
     HAS_COUNTER: true,
     LINK: `#watchlist`,
     IS_ACTIVE: false,
-    ACTION: (films) => films.reduce((total, it) => it.isWatchlisted ? ++total : total, 0),
+    ACTION: (films) => films.reduce((total, it) => it.isWatchlisted ? total + 1 : total, 0),
   },
   "HISTORY": {
     CAPTION: `History`,
     HAS_COUNTER: true,
     LINK: `#history`,
     IS_ACTIVE: false,
-    ACTION: (films) => films.reduce((total, it) => it.isWatched ? ++total : total, 0),
+    ACTION: (films) => films.reduce((total, it) => it.isWatched ? total + 1 : total, 0),
   },
   "FAVORITES": {
     CAPTION: `Favorites`,
     HAS_COUNTER: true,
     LINK: `#favorites`,
     IS_ACTIVE: false,
-    ACTION: (films) => films.reduce((total, it) => it.isFavorite ? ++total : total, 0),
+    ACTION: (films) => films.reduce((total, it) => it.isFavorite ? total + 1 : total, 0),
   },
 };
 

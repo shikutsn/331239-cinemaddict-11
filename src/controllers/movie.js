@@ -1,12 +1,14 @@
 import FilmCardComponent from "../components/film-card.js";
 import FilmDetailsComponent from "../components/film-details.js";
-import {addComponent, removeComponent, render} from "../utils/render.js";
+import {addComponent, removeComponent, render, replace} from "../utils/render.js";
 
 export default class MovieController {
-  constructor(container) {
+  constructor(container, onDataChange) {
     // конструктору на вход дается section films-list, а в this._container записываеися div films-list__container, ведь основная движуха в нем
     this._container = container.getElement().querySelector(`.films-list__container`);
     this._siteBodyElement = document.querySelector(`body`); // для отрисовки попапа
+
+    this._onDataChange = onDataChange;
 
     this._filmCardComponent = null;
     this._filmDetailsComponent = null;
@@ -36,11 +38,40 @@ export default class MovieController {
   }
 
   render(film) {
+    const oldFlmCardComponent = this._filmCardComponent;
+    const oldFilmDetailsComponent = this._filmDetailsComponent;
+
     this._filmCardComponent = new FilmCardComponent(film);
     this._filmDetailsComponent = new FilmDetailsComponent(film);
 
-    this._filmCardComponent.filmCardElementClickHandler(this._onFilmCardElementClick);
+    this._filmCardComponent.setFilmCardElementClickHandler(this._onFilmCardElementClick);
 
-    render(this._container, this._filmCardComponent);
+    this._filmCardComponent.setFavoritesButtonClickHandler((evt) => {
+      evt.preventDefault();
+      this._onDataChange(this, film, Object.assign({}, film, {
+        isFavorite: !film.isFavorite,
+      }));
+    });
+
+    this._filmCardComponent.setWatchedButtonClickHandler((evt) => {
+      evt.preventDefault();
+      this._onDataChange(this, film, Object.assign({}, film, {
+        isWatched: !film.isWatched,
+      }));
+    });
+
+    this._filmCardComponent.setWatchlistedButtonClickHandler((evt) => {
+      evt.preventDefault();
+      this._onDataChange(this, film, Object.assign({}, film, {
+        isWatchlisted: !film.isWatchlisted,
+      }));
+    });
+
+
+    if (oldFlmCardComponent && oldFilmDetailsComponent) {
+      replace(oldFlmCardComponent, this._filmCardComponent);
+    } else {
+      render(this._container, this._filmCardComponent);
+    }
   }
 }

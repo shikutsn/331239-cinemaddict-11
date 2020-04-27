@@ -46,15 +46,15 @@ export default class SortingButtons extends AbstractComponent {
 
       const sortType = evt.target.dataset.sortType;
 
-      if (this._currenSortType === sortType) {
+      if (this._currentSortType === sortType) {
         return;
       }
 
-      this._currenSortType = sortType;
+      this._currentSortType = sortType;
       this.getElement().querySelector(`.${SortButtonCls.ACTIVE}`).classList.remove(SortButtonCls.ACTIVE);
       evt.target.classList.add(SortButtonCls.ACTIVE);
 
-      handler(this._currenSortType);
+      handler(this._currentSortType);
     });
   }
 }
