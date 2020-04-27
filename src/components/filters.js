@@ -1,4 +1,4 @@
-import AbstractComponent from "./abstract-component.js";
+import AbstractSmartComponent from "./abstract-smart-component.js";
 
 const createFilterMarkup = (filter, films) => {
   const {caption, hasCounter, link, isActive, action} = filter;
@@ -28,7 +28,7 @@ const createFiltersTemplate = (filters, films) => {
   );
 };
 
-export default class Filters extends AbstractComponent {
+export default class Filters extends AbstractSmartComponent {
   constructor(filters, films) {
     super();
 
@@ -38,5 +38,14 @@ export default class Filters extends AbstractComponent {
 
   getTemplate() {
     return createFiltersTemplate(this._filters, this._films);
+  }
+
+  recoverListeners() {
+    // TODO placeholder
+  }
+
+  rerender(newFilms) {
+    this._films = newFilms;
+    super.rerender();
   }
 }

@@ -1,9 +1,10 @@
 import FilmCardsContainerComponent from "../components/film-cards-container.js";
 import FilmsContainerComponent from "../components/films-container.js";
+import FiltersComponent from "../components/filters.js";
 import MovieController from "./movie.js";
 import ShowMoreButtonComponent from "../components/show-more-button.js";
 import SortingButtonsComponent from "../components/sorting-buttons.js";
-import {render, remove} from "../utils/render.js";
+import {render, RenderPosition, remove} from "../utils/render.js";
 import {SortType} from "../components/sorting-buttons.js";
 import {FilmsContainerOption} from "../components/film-cards-container.js";
 
@@ -35,16 +36,18 @@ const renderFilmCards = (filmsContainer, filmsToRender, startIndex, count, onDat
 };
 
 export default class PageController {
-  constructor(container) {
+  constructor(container, films, filters) {
     this._container = container;
 
     // TODO в конце проверить, есть ли в конструкторах контроллеров неиспользуемые приватные свойства
-    this._films = [];
+    this._films = films;
+    this._filters = filters;
     this._sortedFilms = [];
-    this._filmsSortedByComments = [];
-    this._showMovieControllers = [];
-    this._filmsSortedByRating = [];
     this._filmsRenderedCount = 0;
+    this._filmsSortedByComments = this._films.slice().sort((a, b) => b.comments.length - a.comments.length);
+    this._filmsSortedByRating = this._films.slice().sort((a, b) => b.rating - a.rating);
+    this._showMovieControllers = [];
+
 
     this._sortingButtonsComponent = new SortingButtonsComponent();
     this._siteFilmsContainerComponent = new FilmsContainerComponent();
@@ -53,6 +56,7 @@ export default class PageController {
     this._filmsTopRatedContainerComponent = new FilmCardsContainerComponent(`Top rated`, FilmsContainerOption.CAPTION_HIDDEN, FilmsContainerOption.EXTRA);
     this._filmsMostCommentedContainerComponent = new FilmCardsContainerComponent(`Most commented`, FilmsContainerOption.CAPTION_HIDDEN, FilmsContainerOption.EXTRA);
     this._showMoreButtonComponent = new ShowMoreButtonComponent();
+    this._filtersComponent = new FiltersComponent(this._filters, this._films);
 
     this._onSortTypeChange = this._onSortTypeChange.bind(this);
     this._onDataChange = this._onDataChange.bind(this);
@@ -100,13 +104,13 @@ export default class PageController {
     this._films = [].concat(this._films.slice(0, index), newData, this._films.slice(index + 1));
 
     movieController.render(this._films[index]);
+    this._filtersComponent.rerender(this._films);
   }
 
-  render(films) {
-    this._films = films;
+  render() {
     this._filmsRenderedCount = (this._films.length > FILMS_PER_PAGE) ? FILMS_PER_PAGE : this._films.length;
-    this._filmsSortedByComments = this._films.slice().sort((a, b) => b.comments.length - a.comments.length);
-    this._filmsSortedByRating = this._films.slice().sort((a, b) => b.rating - a.rating);
+
+    render(this._container.querySelector(`.main-navigation`), this._filtersComponent, RenderPosition.AFTERBEGIN);
 
     const siteFilmsContainerElement = this._siteFilmsContainerComponent.getElement();
 
