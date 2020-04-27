@@ -11,7 +11,7 @@ const FiltersData = {
     CAPTION: `All movies`,
     HAS_COUNTER: false,
     LINK: `#all`,
-    IS_ACTIVE: true,
+    IS_ACTIVE: false,
     ACTION: (films) => films,
   },
   "WATCHLIST": {
@@ -48,19 +48,25 @@ const createFilterMarkup = (filter, films) => {
   return `<a href="${filter.LINK}" data-filter-type=${filter.DATA_TAG} class="main-navigation__item ${isFilterActive}">${filter.CAPTION}${counterMarkup}</a>`;
 };
 
-const createFiltersMarkup = (films) => {
+// TODO передвинуть создание разметки внутрь класса для того, чтобы не пробрасывать по функциям массив фильмов и текущую фильтрацию
+const createFiltersMarkup = (films, currentFilterType) => {
   let targetMarkup = ``;
 
   for (const filterKey in FiltersData) {
     if (FiltersData.hasOwnProperty(filterKey)) {
-      targetMarkup = targetMarkup + createFilterMarkup(FiltersData[filterKey], films);
+      // если у текущего из перебираемых фильтров дата-тег фильтрации совпадает с текущим фильтром, то пометить его в разметке как активный
+      const newFilter = Object.assign({}, FiltersData[filterKey], {
+        IS_ACTIVE: (FiltersData[filterKey].DATA_TAG === currentFilterType),
+      });
+
+      targetMarkup = targetMarkup + createFilterMarkup(newFilter, films);
     }
   }
   return targetMarkup;
 };
 
-const createFiltersTemplate = (filters, films) => {
-  const filtersMarkup = createFiltersMarkup(filters, films);
+const createFiltersTemplate = (films, currentFilterType) => {
+  const filtersMarkup = createFiltersMarkup(films, currentFilterType);
 
   return (
     `<div class="main-navigation__items">
@@ -70,27 +76,36 @@ const createFiltersTemplate = (filters, films) => {
 };
 
 export default class Filters extends AbstractSmartComponent {
-  constructor(filters, films) {
+  constructor(films) {
     super();
 
     this._films = films;
     this._currentFilterType = FiltersData[`ALL_MOVIES`].DATA_TAG;
+    this._filterTypeChangeHandler = null;
   }
 
   getTemplate() {
-    return createFiltersTemplate(this._films);
+    return createFiltersTemplate(this._films, this._currentFilterType);
   }
 
   recoverListeners() {
-    // TODO placeholder
+    this.setFilterTypeChangeHandler(this._filterTypeChangeHandler);
   }
 
   rerender(newFilms) {
     this._films = newFilms;
     super.rerender();
+    // this.getElement().querySelector(`.${FilterButtonCls.ACTIVE}`).classList.remove(FilterButtonCls.ACTIVE);
+    // this.getElement().querySelector(`.${this._currentFilterType}`).classList.add(FilterButtonCls.ACTIVE);
+  }
+
+  getCurrentFilterType() {
+    return this._currentFilterType;
   }
 
   setFilterTypeChangeHandler(handler) {
+    this._filterTypeChangeHandler = handler;
+
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
 

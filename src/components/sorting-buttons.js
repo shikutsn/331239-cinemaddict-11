@@ -32,7 +32,7 @@ export default class SortingButtons extends AbstractComponent {
     return createSortingButtonsTemplate();
   }
 
-  getSortType() {
+  getCurrentSortType() {
     return this._currentSortType;
   }
 

@@ -48,13 +48,10 @@ const renderFilmCards = (filmsContainer, filmsToRender, startIndex, count, onDat
 };
 
 export default class PageController {
-  constructor(container, films, filters) {
+  constructor(container, films) {
     this._container = container;
 
     this._films = films;
-    this._filters = filters;
-    this._sortedFilms = [];
-    this._filteredFilms = this._films;
     this._filmsRenderedCount = 0;
     this._filmsSortedByComments = this._films.slice().sort((a, b) => b.comments.length - a.comments.length);
     this._filmsSortedByRating = this._films.slice().sort((a, b) => b.rating - a.rating);
@@ -67,7 +64,7 @@ export default class PageController {
     this._filmsTopRatedContainerComponent = new FilmCardsContainerComponent(`Top rated`, FilmsContainerOption.CAPTION_HIDDEN, FilmsContainerOption.EXTRA);
     this._filmsMostCommentedContainerComponent = new FilmCardsContainerComponent(`Most commented`, FilmsContainerOption.CAPTION_HIDDEN, FilmsContainerOption.EXTRA);
     this._showMoreButtonComponent = new ShowMoreButtonComponent();
-    this._filtersComponent = new FiltersComponent(this._filters, this._films);
+    this._filtersComponent = new FiltersComponent(this._films);
 
     this._onSortTypeChange = this._onSortTypeChange.bind(this);
     this._onDataChange = this._onDataChange.bind(this);
@@ -75,6 +72,14 @@ export default class PageController {
 
     this._sortingButtonsComponent.setSortTypeChangeHandler(this._onSortTypeChange);
     this._filtersComponent.setFilterTypeChangeHandler(this._onFilterTypeChange);
+
+    this._reCalcFilmsArrays();
+  }
+
+  _reCalcFilmsArrays() {
+    // пересчитывает все зависимые массивы фильмов. Требуется, если пользователь добавил/удалил из избранного и тд
+    this._sortedFilms = getSortedFilms(this._films, this._sortingButtonsComponent.getCurrentSortType());
+    this._filteredFilms = getFilteredFilms(this._films, this._filtersComponent.getCurrentFilterType());
   }
 
   _renderShowMoreButton(filmsToRender) {
@@ -127,8 +132,16 @@ export default class PageController {
     }
 
     this._films = [].concat(this._films.slice(0, index), newData, this._films.slice(index + 1));
+    this._reCalcFilmsArrays();
 
-    movieController.render(this._films[index]);
+    if (this._filtersComponent.getCurrentFilterType() !== FiltersData[`ALL_MOVIES`].DATA_TAG) {
+      // если фильтрация не дефолтная, то придется все перерисовать
+      this._onFilterTypeChange(this._filtersComponent.getCurrentFilterType());
+    } else {
+      // а если дефолтная, достаточно перерисовать одну карточку
+      movieController.render(this._films[index]);
+    }
+    // обновим фильтры
     this._filtersComponent.rerender(this._films);
   }
 
